@@ -180,12 +180,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-<<<<<<< HEAD
-  chronic
-=======
   better_errors
   binding_of_caller
->>>>>>> e8d031158d480b8ace1cb280c305b2308b8ec0e8
   coffee-rails (~> 4.0.0)
   did_you_mean
   dotenv-rails

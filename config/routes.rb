@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get 'sessions/create'
 
+  delete 'sessions/destroy', to: 'sessions#destroy'
+
   get '/auth/salesforce/callback', to: 'sessions#create'
 
   # The priority is based upon order of creation: first created -> highest priority.

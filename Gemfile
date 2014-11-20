@@ -47,7 +47,7 @@ group :development, :test do
   gem 'pry-rails'
   gem "pry-byebug"
   gem 'shoulda'
-  gem 'did_you_mean'
+  gem 'did_you_mean', '~> 0.9.4'
 end
 
 gem 'dotenv-rails'

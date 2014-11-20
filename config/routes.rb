@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  root 'home#index'
+
+  get 'sessions/create'
+
+  delete 'sessions/destroy', to: 'sessions#destroy'
+
+  get '/auth/salesforce/callback', to: 'sessions#create'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

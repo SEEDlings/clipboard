@@ -1,0 +1,5 @@
+<% if logged_in? %>
+  <h1>Woo, you are logged in!</h1>
+<% else %>
+  <a href="/oauth/salesforce" class="button"><%= 'Log in via Salesforce' %></a>
+<% end %>

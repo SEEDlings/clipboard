@@ -48,6 +48,9 @@ group :development, :test do
   gem "pry-byebug"
   gem 'shoulda'
   gem 'did_you_mean', '~> 0.9.4'
+  gem "rubocop", require: false
+  gem "rails_best_practices", require: false
+  gem "brakeman", require: false
 end
 
 gem 'dotenv-rails'

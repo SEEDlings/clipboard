@@ -51,9 +51,11 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rails_best_practices", require: false
   gem "brakeman", require: false
+  gem 'faker'
 end
 
 gem 'dotenv-rails'
 gem 'sinatra'
 gem 'omniauth'
 gem 'omniauth-salesforce'
+gem 'restforce'

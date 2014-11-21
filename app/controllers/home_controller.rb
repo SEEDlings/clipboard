@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  # before_action :set_client
+  before_action :set_client
 
   def index
     return unless logged_in?

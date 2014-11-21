@@ -48,6 +48,7 @@ group :development, :test do
   gem "pry-byebug"
   gem 'shoulda'
   gem 'did_you_mean', '~> 0.9.4'
+  gem 'faker'
 end
 
 gem 'dotenv-rails'

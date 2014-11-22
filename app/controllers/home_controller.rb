@@ -11,6 +11,7 @@ class HomeController < ApplicationController
     return unless logged_in?
     salesforce_auth = current_user.authorizations.find_by(provider: 'salesforce')
     return unless salesforce_auth
+    binding.pry
     client = Restforce.new :host => ENV['SALESFORCE_HOST'],
       :oauth_token   => salesforce_auth.oauth_token,
       :refresh_token => salesforce_auth.refresh_token,

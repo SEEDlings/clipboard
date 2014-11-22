@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120182249) do
+ActiveRecord::Schema.define(version: 20141122221252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: true do |t|
+    t.string   "name"
+    t.string   "date"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activities", ["event_id"], name: "index_activities_on_event_id", using: :btree
 
   create_table "authorizations", force: true do |t|
     t.integer  "user_id"
@@ -29,8 +39,41 @@ ActiveRecord::Schema.define(version: 20141120182249) do
 
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
 
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.string   "date"
+    t.string   "recurrence"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shifts", force: true do |t|
+    t.string   "sf_id"
+    t.string   "sf_volunteer_shift_id"
+    t.string   "sf_shift_detail_id"
+    t.integer  "volunteer_id"
+    t.integer  "activity_id"
+    t.string   "date"
+    t.decimal  "hours",                 precision: 12, scale: 2
+    t.string   "status",                                         default: "Sign Up"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "shifts", ["activity_id"], name: "index_shifts_on_activity_id", using: :btree
+  add_index "shifts", ["volunteer_id"], name: "index_shifts_on_volunteer_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "volunteers", force: true do |t|
+    t.string   "sf_id"
+    t.string   "name_first"
+    t.string   "name_last"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"

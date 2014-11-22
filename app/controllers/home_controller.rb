@@ -14,7 +14,7 @@ class HomeController < ApplicationController
     client = Restforce.new :host => ENV['SALESFORCE_HOST'],
       :oauth_token   => salesforce_auth.oauth_token,
       :refresh_token => salesforce_auth.refresh_token,
-      :instance_url  => 'https://na17.salesforce.com',
+      :instance_url  => ENV['SALESFORCE_HOST'],
       :client_id     => ENV['SALESFORCE_KEY'],
       :client_secret => ENV['SALESFORCE_SECRET']
     end

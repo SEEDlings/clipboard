@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user_id: 
-  provider: MyString
+  user: one
+  provider: SalesForce
   uid: MyString
   instance_url: MyString
   oauth_token: MyString

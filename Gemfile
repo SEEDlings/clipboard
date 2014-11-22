@@ -52,6 +52,9 @@ group :development, :test do
   gem "rails_best_practices", require: false
   gem "brakeman", require: false
   gem 'faker'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'launchy'
 end
 
 gem 'dotenv-rails'

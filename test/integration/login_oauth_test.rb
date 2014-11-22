@@ -4,7 +4,7 @@ class LoginOauthTest < ActionDispatch::IntegrationTest
   should "login with salesforce and return to home" do
     background do
       visit root_path
-      click_link 'Sign in'
+      click_link 'Log in via Salesforce'
 
       OmniAuth.config.mock_auth[:salesforce] = {
           provider: 'salesforce',
@@ -12,7 +12,7 @@ class LoginOauthTest < ActionDispatch::IntegrationTest
           credentials: {
               :oauth_token   => salesforce_auth.oauth_token,
               :refresh_token => salesforce_auth.refresh_token,
-              :instance_url  => 'https://na17.salesforce.com',
+              :instance_url  => 'https://cs21.salesforce.com',
               :client_id     => ENV['SALESFORCE_KEY'],
               :client_secret => ENV['SALESFORCE_SECRET']
           }

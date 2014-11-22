@@ -6,9 +6,9 @@ class LoginOauthTest < ActionDispatch::IntegrationTest
       visit root_path
       click_link 'Sign in'
 
-      OmniAuth.config.mock_auth[:facebook] = {
+      OmniAuth.config.mock_auth[:salesforce] = {
           provider: 'salesforce',
-          uid: user.facebook_account.uid,
+          uid: user.salesforce_accoun.uid,
           credentials: {
               :oauth_token   => salesforce_auth.oauth_token,
               :refresh_token => salesforce_auth.refresh_token,

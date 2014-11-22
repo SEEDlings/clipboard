@@ -38,6 +38,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
@@ -82,4 +83,14 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new({
+                                                                  :provider => 'salesforce',
+                                                                  :uid => '1337',
+                                                                  :info => {
+                                                                      'name' => 'JonnieHallman',
+                                                                      'email' => 'jon@test.com'
+                                                                  }
+                                                              })
 end

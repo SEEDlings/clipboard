@@ -3,16 +3,11 @@ require 'rspec/rails'
 require File.expand_path('spec/spec_helper')
 
 class LoginOauthTest < ActionDispatch::IntegrationTest
-  should  "direct to salesforce login" do
-    login
-    title = "Where do I go?"
-    text = "Not sure"
-    tag = "tag1,"
-
-    visit root_path
-
-    click_on "Ask"
-
-    assert page.has_content?("tag1")
+  feature "login directs to salesforce" do
+    scenario "logging in with salesforce" do
+      visit root_url
+      click_link "Log in via Salesforce"
+      expect(page).to have_text("Salesforce")
+    end
   end
 end

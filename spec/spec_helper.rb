@@ -15,6 +15,15 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new({
+                                                                      :provider => 'salesforce',
+                                                                      :uid => '1337',
+                                                                      :info => {
+                                                                          'name' => 'JonnieHallman',
+                                                                          'email' => 'jon@test.com'
+                                                                      }
+                                                                  })
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -84,13 +93,4 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
   #
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new({
-                                                                  :provider => 'salesforce',
-                                                                  :uid => '1337',
-                                                                  :info => {
-                                                                      'name' => 'JonnieHallman',
-                                                                      'email' => 'jon@test.com'
-                                                                  }
-                                                              })
 end

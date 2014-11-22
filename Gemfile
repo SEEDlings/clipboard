@@ -55,6 +55,7 @@ group :development, :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'launchy'
+  gem 'rspec'
 end
 
 gem 'dotenv-rails'
@@ -62,3 +63,4 @@ gem 'sinatra'
 gem 'omniauth'
 gem 'omniauth-salesforce'
 gem 'restforce'
+

@@ -52,6 +52,10 @@ group :development, :test do
   gem "rails_best_practices", require: false
   gem "brakeman", require: false
   gem 'faker'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'launchy'
+  gem 'rspec-rails'
 end
 
 gem 'dotenv-rails'
@@ -59,3 +63,4 @@ gem 'sinatra'
 gem 'omniauth'
 gem 'omniauth-salesforce'
 gem 'restforce'
+

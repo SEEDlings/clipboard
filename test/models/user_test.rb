@@ -36,7 +36,7 @@ class UserTest < ActiveSupport::TestCase
 
     context "a user" do
       should validate_presence_of(:name)
-      should validate_presence_of(:email)
+      # should validate_presence_of(:email)
       # should validate_uniqueness_of(:email)
     end
 end

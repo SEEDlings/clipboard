@@ -9,3 +9,7 @@ class ActiveSupport::TestCase
   Capybara.default_driver = :selenium
   # Add more helper methods to be used by all tests here...
 end
+
+class ActionDispatch::IntegrationTest
+  self.use_transactional_fixtures = false
+end

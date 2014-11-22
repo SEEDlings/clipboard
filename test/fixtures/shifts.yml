@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sf_id: MyString
+  sf_volunteer_shift_id: MyString
+  sf_shift_detail_id: MyString
+  volunteer_id: 
+  activity_id: 
+  date: MyString
+  hours: 1.5
+  status: MyString
+
+two:
+  sf_id: MyString
+  sf_volunteer_shift_id: MyString
+  sf_shift_detail_id: MyString
+  volunteer_id: 
+  activity_id: 
+  date: MyString
+  hours: 1.5
+  status: MyString

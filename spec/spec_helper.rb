@@ -83,7 +83,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-
+  #
   OmniAuth.config.test_mode = true
   OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new({
                                                                   :provider => 'salesforce',

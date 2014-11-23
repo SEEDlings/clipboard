@@ -60,7 +60,6 @@ end
 
 gem 'dotenv-rails'
 gem 'sinatra'
-gem 'omniauth'
-gem 'omniauth-salesforce'
 gem 'restforce'
-
+gem 'omniauth'
+gem "omniauth-salesforce", :git => 'git://github.com/mohamed-mahmoud/omniauth-salesforce.git'

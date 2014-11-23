@@ -1,5 +1,7 @@
 class VolunteersController < ApplicationController
+  before_action :client
+
   def testaction
-    @client
+    puts client.search('FIND {david}')
   end
 end

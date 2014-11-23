@@ -7,5 +7,4 @@ class HomeController < ApplicationController
 
   private
 
-
 end

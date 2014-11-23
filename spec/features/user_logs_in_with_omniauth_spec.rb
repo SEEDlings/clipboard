@@ -15,6 +15,6 @@ feature 'testing oauth' do
     fill_in 'User Name', :with => 'Rebecca'
     fill_in 'Password', :with => 'password'
     #do these correspond to oauth or the salesforce login? should the fields correspond to fixtures? should we be testing these?
-    page.should have_content('Woo')
+    expect(page).to have_content("Woo")
   end
 end

@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  date: MyString
+  name: Special Event Garden
+  date: Wednesday November 26
   recurrence: MyString
 
 two:
-  name: MyString
-  date: MyString
+  name: Special Event Chef
+  date: Thursday November 27
   recurrence: MyString

@@ -1,21 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  sf_id: MyString
-  sf_volunteer_shift_id: MyString
-  sf_shift_detail_id: MyString
-  volunteer_id: 
-  activity_id: 
-  date: MyString
+  sf_id: 2111
+  sf_volunteer_shift_id: 0011
+  sf_shift_detail_id: 0033
+  volunteer_id: 55
+  activity_id: 77
+  date: Wednesday November 26
   hours: 1.5
-  status: MyString
+  status: Confirmed
 
 two:
-  sf_id: MyString
-  sf_volunteer_shift_id: MyString
-  sf_shift_detail_id: MyString
-  volunteer_id: 
-  activity_id: 
-  date: MyString
+  sf_id: 3111
+  sf_volunteer_shift_id: 0055
+  sf_shift_detail_id: 0022
+  volunteer_id: 66
+  activity_id: 88
+  date: Wednesday November 26
   hours: 1.5
-  status: MyString
+  status: Confirmed

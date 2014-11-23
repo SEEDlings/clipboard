@@ -17,20 +17,29 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
+require 'capybara/rspec'
 
+
+module IntegrationSpecHelper
+  def login_with_oauth(service = :twitter)
+    visit "/auth/#{service}"
+  end
+end
+
+Capybara.default_driver = :selenium
 
 OmniAuth.config.test_mode = true
 auth_hash = { 'provider' => 'salesforce',
-                  'uid' => '12345',
-                  'info' => {
-                      'name' => 'rebecca',
-                      'email' => 'hi@seedlings.com',
-                  },
-                  'credentials' => {
-                      'token' => '12345',
-                      'secret' => 'secret',
-                  },
+              'uid' => '12345',
+              'info' => {
+                  'name' => 'rebecca',
+                  'email' => 'hi@seedlings.com',
+              },
+              'credentials' => {
+                  'token' => '12345',
+                  'secret' => 'secret',
+                  'host' => 'sandbox_url',
+              },
 }
 
 OmniAuth.config.add_mock(:salesforce, auth_hash)

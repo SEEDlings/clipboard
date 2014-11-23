@@ -20,7 +20,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 
 OmniAuth.config.test_mode = true
-omniauth_hash = { 'provider' => 'github',
+omniauth_hash = { 'provider' => 'salesforce',
                   'uid' => '12345',
                   'info' => {
                       'name' => 'rebecca',
@@ -34,7 +34,8 @@ omniauth_hash = { 'provider' => 'github',
                   # }
 }
 
-OmniAuth.config.add_mock(:github, omniauth_hash)
+OmniAuth.config.add_mock(:salesforce, omniauth_hash)
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

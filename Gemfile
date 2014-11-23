@@ -56,8 +56,6 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'rspec-rails'
-  gem 'rspec-core'
-  gem 'rspec-expectations'
 end
 
 gem 'dotenv-rails'

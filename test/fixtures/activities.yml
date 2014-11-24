@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Garden
-  date: Wednesday November 26
-  event_id:
+  name: Garden Morning
+  date: 12/10/14
+  event_id: one
 
 two:
   name: Chef
-  date: Thursday November 27
-  event_id:
+  date: 12/11/14
+  event_id: two

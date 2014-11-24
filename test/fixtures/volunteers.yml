@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  sf_id: 0022
-  name_first: First
-  name_last: Last
-  email: one@examples.org
+  sf_id: 8697324765293845sfsa
+  name_first: Samwise
+  name_last: Gamgee
+  email: samgam@shire.com
 
 two:
-  sf_id: 0033
-  name_first: NextFirst
-  name_last: NextLast
-  email: two@examples.org
+  sf_id: 983745862345asdfw
+  name_first: Luke
+  name_last: Skywalker
+  email: wompratkilla24@tatooine.net

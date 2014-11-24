@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Special Event Garden
-  date: Wednesday November 26
-  recurrence: MyString
+  name: Work in the Gardens
+  date: 12/10/14
+  recurrence: weekly
 
 two:
-  name: Special Event Chef
-  date: Thursday November 27
-  recurrence: MyString
+  name: Work in the Gardens
+  date: 12/11/14
+  recurrence: weekly

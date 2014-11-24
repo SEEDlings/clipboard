@@ -58,6 +58,10 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
+group :test do
+  gem 'simplecov', :require => false
+end
+
 gem 'dotenv-rails'
 gem 'sinatra'
 gem 'restforce'

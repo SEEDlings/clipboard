@@ -4,9 +4,9 @@ class VolunteersController < ApplicationController
   def testaction
     names = []
 
-    updated = client.query("SELECT Id, FirstName FROM Contact WHERE SystemModstamp < #{DateTime.now}")
+    updated = client.query("SELECT Id, FirstName, LastName, Email FROM Contact WHERE SystemModstamp > #{DateTime.now - 4}")
     updated.current_page.each do |o|
-      names << o.FirstName
+      names << [sf_id: o.Id, name_first: o.FirstName, name_last: o.LastName, email: o.Email]
     end
 
     puts names

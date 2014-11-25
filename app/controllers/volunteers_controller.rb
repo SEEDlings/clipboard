@@ -2,17 +2,14 @@ class VolunteersController < ApplicationController
   before_action :client
 
   def testaction
-    updated_ids = []
-    updated_records = []
-    updated = client.query("select Id from contact where SystemModstamp < #{DateTime.now}")
+    names = []
+
+    updated = client.query("SELECT Id, FirstName FROM Contact WHERE SystemModstamp < #{DateTime.now}")
     updated.current_page.each do |o|
-      updated_ids << o.Id
+      names << o.FirstName
     end
-    updated_ids.each do |o|
-      updated_records << client.find('Contact', "#{o}")
-    end
-    updated_records.each do |o|
-      puts o.FirstName
-    end
+
+    puts names
+
   end
 end

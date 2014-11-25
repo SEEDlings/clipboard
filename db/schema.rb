@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141122221252) do
+ActiveRecord::Schema.define(version: 20141124201244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,13 @@ ActiveRecord::Schema.define(version: 20141122221252) do
 
   add_index "shifts", ["activity_id"], name: "index_shifts_on_activity_id", using: :btree
   add_index "shifts", ["volunteer_id"], name: "index_shifts_on_volunteer_id", using: :btree
+
+  create_table "syncers", force: true do |t|
+    t.string   "last_sync"
+    t.string   "last_full_sync"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'volunteers/testaction'
 
+  post 'shifts/confirm'
 
   root 'home#index'
 

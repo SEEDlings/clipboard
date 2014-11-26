@@ -19,7 +19,7 @@ class Syncer < ActiveRecord::Base
         WHERE SystemModstamp > #{self.last_sync}")
 
     updated_contacts.current_page.each do |o|
-      volunteers << {sf_id: o.Id,
+      volunteers << {sf_contact_id: o.Id,
                      name_first: o.FirstName,
                      name_last: o.LastName,
                      email: o.Email}
@@ -27,7 +27,7 @@ class Syncer < ActiveRecord::Base
     updated_shifts.current_page.each do |o|
       # logic to turn job type bools into a Activity
       shifts << {sf_volunteer_shift_id: o.Id,
-                 sf_id: o.Volunteer_Name__c,
+                 sf_contact_id: o.Volunteer_Name__c,
                  status: o.Shift_Status__c}
     end
     updated_details.current_page.each do |o|
@@ -40,14 +40,14 @@ class Syncer < ActiveRecord::Base
     end
 
     volunteers.each do |sf_v|
-      if Volunteer.any? { |e_v| e_v.sf_id == sf_v[:sf_id] }
-        puts "Existing Volunteer found, updating #{sf_v[:sf_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"
-        updated_volunteer = Volunteer.find_by(sf_id: sf_v[:sf_id])
+      if Volunteer.any? { |e_v| e_v.sf_id == sf_v[:sf_contact_id] }
+        puts "Existing Volunteer found, updating #{sf_v[:sf_contact_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"
+        updated_volunteer = Volunteer.find_by(sf_contact_id: sf_v[:sf_contact_id])
         updated_volunteer.update!(sf_v)
         puts "#{updated_volunteer.name_first} was updated."
       else
-        puts "No existing Volunteer found, creating Volunteer #{sf_v[:sf_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"
-        Volunteer.create!(sf_id: sf_v[:sf_id],
+        puts "No existing Volunteer found, creating Volunteer #{sf_v[:sf_contact_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"
+        Volunteer.create!(sf_contact_id: sf_v[:sf_contact_id],
                           name_first: sf_v[:name_first],
                           name_last: sf_v[:name_last],
                           email: sf_v[:email])
@@ -68,8 +68,8 @@ class Syncer < ActiveRecord::Base
         puts "No existing Shift found, creating Shift #{sf_s[:sf_volunteer_shift_id]}"
         Shift.create!(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id],
                       sf_shift_detail_id: "pending detail",
-                      sf_id: sf_s[:sf_id],
-                      volunteer_id: Volunteer.find_by(sf_id: sf_s[:sf_id]).id,
+                      sf_contact_id: sf_s[:sf_contact_id],
+                      volunteer_id: Volunteer.find_by(sf_contact_id: sf_s[:sf_contact_id]).id,
                       activity_id: "pending activity logic",
                       # give activity_id when that logic is in place
                       date: "pending detail",
@@ -102,11 +102,11 @@ class Syncer < ActiveRecord::Base
         companion_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
         Shift.create!(sf_volunteer_shift_id: companion_shift[:sf_volunteer_shift_id],
                       sf_shift_detail_id: sf_d[:sf_shift_detail_id],
-                      sf_id: companion_shift[:sf_id],
+                      sf_contact_id: companion_shift[:sf_contact_id],
                       volunteer_id: companion_shift[:volunteer_id],
                       activity_id: "pending activity logic",
                       date: sf_d[:date],
-                      #might need to be changed to date - calendar
+                      # might need to be changed to date - calendar
                       hours: sf_d[:hours],
                       shift_name: sf_d[:shift_name],
                       status: companion_shift[:status]

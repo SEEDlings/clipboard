@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20141126165122) do
   end
 
   create_table "shifts", force: true do |t|
-    t.string   "sf_id"
+    t.string   "sf_contact_id"
     t.string   "sf_volunteer_shift_id"
     t.string   "sf_shift_detail_id"
     t.integer  "volunteer_id"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20141126165122) do
   end
 
   create_table "volunteers", force: true do |t|
-    t.string   "sf_id"
+    t.string   "sf_contact_id"
     t.string   "name_first"
     t.string   "name_last"
     t.string   "email"

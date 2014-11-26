@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   get 'volunteers/testaction'
 
+  get 'shifts/index'
+
   root 'home#index'
 
   get 'sessions/create'

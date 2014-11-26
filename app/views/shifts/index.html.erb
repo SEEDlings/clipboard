@@ -1,0 +1,35 @@
+<h1>Volunteers Scheduled For #{time.day}</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Volunteer ID</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @volunteer.each do |volunteer| %>
+    <tr>
+      <td><%= volunteer.name_first %></td>
+      <td><%= volunteer.name_last %></td>
+      <td><%= volunteer.email %></td>
+      <td><%= volunteer.sf_id %></td>
+      <td><%= volunteer.status %></td>
+
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<label for="search">Status: </label>
+<input id="search" type="search" name="search1" placeholder="status" required  list="datalist1" />
+
+<datalist id="datalist1">
+  <option value="Confirmed" />
+  <option value="Cancelled" />
+  <option value="No Show" />
+</datalist>

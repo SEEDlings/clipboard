@@ -34,7 +34,8 @@ class Syncer < ActiveRecord::Base
       details << {sf_shift_detail_id: o.Id,
                   sf_volunteer_shift_id: o.Shift__c,
                   shift_name: o.Shift_Name__c,
-                  date: "#{o.Date_text__c} or #{o.Date_Calendar__c}",
+                  date: o.Date_text__c,
+                  # may need to be changed to date - calendar, etc.
                   hours: o.Shift_Hours__c}
     end
 
@@ -104,7 +105,8 @@ class Syncer < ActiveRecord::Base
                       sf_id: companion_shift[:sf_id],
                       volunteer_id: companion_shift[:volunteer_id],
                       activity_id: "pending activity logic",
-                      date: "#{sf_d[:date_text]} or #{sf_d[:date_calendar]}",
+                      date: sf_d[:date_text],
+                      #might need to be changed to date - calendar
                       hours: sf_d[:hours],
                       shift_name: sf_d[:shift_name],
                       status: companion_shift[:status]

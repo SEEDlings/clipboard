@@ -14,6 +14,36 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'capybara/rspec'
+
+
+module IntegrationSpecHelper
+  def login_with_oauth(service = :twitter)
+    visit "/auth/#{service}"
+  end
+end
+
+Capybara.default_driver = :selenium
+
+OmniAuth.config.test_mode = true
+auth_hash = { 'provider' => 'salesforce',
+              'uid' => '12345',
+              'info' => {
+                  'name' => 'rebecca',
+                  'email' => 'hi@seedlings.com',
+              },
+              'credentials' => {
+                  'token' => '12345',
+                  'secret' => 'secret',
+                  'host' => 'sandbox_url',
+              },
+}
+
+OmniAuth.config.add_mock(:salesforce, auth_hash)
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -84,13 +114,4 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
   #
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new({
-                                                                  :provider => 'salesforce',
-                                                                  :uid => '1337',
-                                                                  :info => {
-                                                                      'name' => 'JonnieHallman',
-                                                                      'email' => 'jon@test.com'
-                                                                  }
-                                                              })
 end

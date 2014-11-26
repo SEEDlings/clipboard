@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get 'shifts/index'
 
+  get 'shifts/confirm'
+
   root 'home#index'
 
   get 'sessions/create'

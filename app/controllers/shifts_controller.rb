@@ -1,5 +1,11 @@
 class ShiftsController < ApplicationController
+  before_action :client
+
   def new
+  end
+
+  def confirm
+    @client.update!('SEEDS_Volunteer_Shifts__c', Id: "a0bq00000000A39AAE", Shift_Status__c: "Confirmed")
   end
 
   def index

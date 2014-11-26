@@ -4,7 +4,6 @@
   <% @today = Date.today.strftime("%B %d")%>
   <% @shifts.each do |s| %>
     <% if s.date == " or "%>
-    <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong>
-    <br>
+    <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
     <% end %>
   <% end %>

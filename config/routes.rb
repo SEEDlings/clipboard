@@ -2,13 +2,13 @@ Rails.application.routes.draw do
 
   get 'volunteers/testaction'
 
-  get 'shifts/index'
-
-  get 'shifts/confirm', to: 'shifts#confirm'
+  post 'shifts/confirm'
 
   root 'home#index'
 
   get 'sessions/create'
+
+  get 'shifts/index'
 
   delete 'sessions/destroy', to: 'sessions#destroy'
 

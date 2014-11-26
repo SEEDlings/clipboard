@@ -14,7 +14,7 @@ class Syncer < ActiveRecord::Base
         FROM SEEDS_Volunteer_Shifts__c
         WHERE SystemModstamp > #{self.last_sync}")
     updated_details = client.query(
-        "SELECT Id, Shift__c, Shift_Name__c, Date_text__c, Date_Calendar__c, Shift_Hours__c
+        "SELECT Id, Shift__c, Shift_Name__c, Date_Text__c, Date_Calendar__c, Shift_Hours__c
         FROM SEEDS_Vol_Shift_Detail__c
         WHERE SystemModstamp > #{self.last_sync}")
 
@@ -34,7 +34,8 @@ class Syncer < ActiveRecord::Base
       details << {sf_shift_detail_id: o.Id,
                   sf_volunteer_shift_id: o.Shift__c,
                   shift_name: o.Shift_Name__c,
-                  date: "#{o.Date_text__c} or #{o.Date_Calendar__c}",
+                  date: o.Date_Text__c,
+                  # may need to be changed to date - calendar, etc.
                   hours: o.Shift_Hours__c}
     end
 
@@ -104,7 +105,8 @@ class Syncer < ActiveRecord::Base
                       sf_id: companion_shift[:sf_id],
                       volunteer_id: companion_shift[:volunteer_id],
                       activity_id: "pending activity logic",
-                      date: "#{sf_d[:date_text]} or #{sf_d[:date_calendar]}",
+                      date: sf_d[:date],
+                      #might need to be changed to date - calendar
                       hours: sf_d[:hours],
                       shift_name: sf_d[:shift_name],
                       status: companion_shift[:status]

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get 'shifts/index'
 
-  get 'shifts/confirm'
+  get 'shifts/confirm', to: 'shifts#confirm'
 
   root 'home#index'
 

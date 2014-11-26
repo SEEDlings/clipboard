@@ -5,7 +5,8 @@ class ShiftsController < ApplicationController
   end
 
   def confirm
-    @client.update!('SEEDS_Volunteer_Shifts__c', Id: "a0bq00000000A39AAE", Shift_Status__c: "Confirmed")
+    @client.update!('SEEDS_Volunteer_Shifts__c', Id: 'a0bq00000000CEzAAM', Shift_Status__c: "Confirmed")
+    redirect_to shifts_index_path
   end
 
   def index

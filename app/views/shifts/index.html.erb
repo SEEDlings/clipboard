@@ -4,6 +4,6 @@
   <% @today = Date.today.strftime("%B %d")%>
   <% @shifts.each do |s| %>
     <% if s.date == " or "%>
-    <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
+    <%= button_to('Confirm',options = { :action => 'confirm', :params => { :shift_id => s.sf_volunteer_shift_id}})%><strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
     <% end %>
-  <% end %>
+<% end %>

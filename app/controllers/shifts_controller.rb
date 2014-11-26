@@ -1,12 +1,17 @@
 class ShiftsController < ApplicationController
 
-  def findshifts
+  def shifts_day
     @shifts = []
     @shift = testshift
     @shift.date = "November 26"
     @month = Date.today.strftime("%B")
     @day = Date.today.day
     @today = "#{@month}" + " #{@day}"
+    if @shift.date = @today
+      render
+    else
+
+    end
 
   end
 

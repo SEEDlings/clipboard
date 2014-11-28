@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126165122) do
+ActiveRecord::Schema.define(version: 20141128142639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20141126165122) do
   end
 
   create_table "shifts", force: true do |t|
-    t.string   "sf_id"
+    t.string   "sf_contact_id"
     t.string   "sf_volunteer_shift_id"
     t.string   "sf_shift_detail_id"
     t.integer  "volunteer_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20141126165122) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "shift_name"
+    t.string   "year"
   end
 
   add_index "shifts", ["activity_id"], name: "index_shifts_on_activity_id", using: :btree
@@ -79,7 +80,7 @@ ActiveRecord::Schema.define(version: 20141126165122) do
   end
 
   create_table "volunteers", force: true do |t|
-    t.string   "sf_id"
+    t.string   "sf_contact_id"
     t.string   "name_first"
     t.string   "name_last"
     t.string   "email"

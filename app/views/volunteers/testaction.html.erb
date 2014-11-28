@@ -1,2 +1,16 @@
 <h1>Volunteers#testaction</h1>
 <p>Find me in app/views/volunteers/testaction.html.erb</p>
+
+<%= form_for @volunteer do |f| %>
+    <%= f.label :first_name %>:
+    <%= f.text_field :first_name %><br />
+
+    <%= f.label :last_name %>:
+    <%= f.text_field :last_name %><br />
+
+    <%= f.label :email %>:
+    <%= f.text_field :email %><br />
+
+    <%= f.submit %>
+<% end %>
+

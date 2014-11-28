@@ -96,7 +96,7 @@ class Syncer < ActiveRecord::Base
         puts "Shift pending detail found, filling in pending info with Shift Detail #{sf_d[:sf_shift_detail_id]}"
         partial_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
         partial_shift.update!(sf_d)
-        partial_shift.update!(date: Chronic.parse(sf_d[:date]))
+        partial_shift.update!(date: Chronic.parse(sf_d[:date]).to_date)
         puts "Pending Shift #{partial_shift.sf_shift_detail_id} was completed with detail info"
 
         # If there is an existing shift with the same "sf_volunteer_shift_id", and "sf_shift_detail_id" is NOT "pending detail" OR nil
@@ -108,7 +108,7 @@ class Syncer < ActiveRecord::Base
                       sf_contact_id: sibling_shift[:sf_contact_id],
                       volunteer_id: sibling_shift[:volunteer_id],
                       activity_id: "pending activity logic",
-                      date: Chronic.parse(sf_d[:date]),
+                      date: Chronic.parse(sf_d[:date]).to_date,
                       # .change(year: self.year)
                       # might need to be changed to date - calendar
                       hours: sf_d[:hours],

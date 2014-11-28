@@ -1,16 +1,9 @@
 <h1>Volunteers#testaction</h1>
 <p>Find me in app/views/volunteers/testaction.html.erb</p>
 
-<%= form_for @volunteer do |f| %>
-    <%= f.label :first_name %>:
-    <%= f.text_field :first_name %><br />
-
-    <%= f.label :last_name %>:
-    <%= f.text_field :last_name %><br />
-
-    <%= f.label :email %>:
-    <%= f.text_field :email %><br />
-
-    <%= f.submit %>
+<%= simple_form_for @volunteer do |f| %>
+    <%= f.input :name_first, label: 'Your first name please' %>
+    <%= f.input :name_last, label: 'Your last name please' %>
+    <%= f.input :email, placeholder: "lastname@volunteer.org if you don't have an email or prefer not to give it" %>
+    <%= f.button :testaction %>
 <% end %>
-

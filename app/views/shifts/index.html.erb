@@ -5,6 +5,6 @@
     <% if s.date == Date.today.to_s %>
            <%= button_to('Confirm',
                 options = { :action => 'confirm', :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-        <strong><%= s.sf_volunteer_shift_id %><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
+        <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
     <% end %>
   <% end %>

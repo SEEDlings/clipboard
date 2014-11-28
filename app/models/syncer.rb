@@ -28,7 +28,8 @@ class Syncer < ActiveRecord::Base
       # logic to turn job type bools into a Activity
       shifts << {sf_volunteer_shift_id: o.Id,
                  sf_contact_id: o.Volunteer_Name__c,
-                 status: o.Shift_Status__c}
+                 status: o.Shift_Status__c,
+                 year: o.Year__c}
     end
     updated_details.current_page.each do |o|
       details << {sf_shift_detail_id: o.Id,
@@ -40,7 +41,7 @@ class Syncer < ActiveRecord::Base
     end
 
     volunteers.each do |sf_v|
-      if Volunteer.any? { |e_v| e_v.sf_id == sf_v[:sf_contact_id] }
+      if Volunteer.any? { |e_v| e_v.sf_contact_id == sf_v[:sf_contact_id] }
         puts "Existing Volunteer found, updating #{sf_v[:sf_contact_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"
         updated_volunteer = Volunteer.find_by(sf_contact_id: sf_v[:sf_contact_id])
         updated_volunteer.update!(sf_v)
@@ -73,6 +74,7 @@ class Syncer < ActiveRecord::Base
                       activity_id: "pending activity logic",
                       # give activity_id when that logic is in place
                       date: "pending detail",
+                      year: sf_s[:year],
                       hours: "pending detail",
                       shift_name: "pending detail",
                       status: sf_s[:status] )
@@ -94,27 +96,30 @@ class Syncer < ActiveRecord::Base
         puts "Shift pending detail found, filling in pending info with Shift Detail #{sf_d[:sf_shift_detail_id]}"
         partial_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
         partial_shift.update!(sf_d)
+        partial_shift.update!(date: Chronic.parse(sf_d[:date]))
         puts "Pending Shift #{partial_shift.sf_shift_detail_id} was completed with detail info"
 
         # If there is an existing shift with the same "sf_volunteer_shift_id", and "sf_shift_detail_id" is NOT "pending detail" OR nil
         # create a new Shift with the same "sf_volunteer_shift_id" info, and the new detail info
       elsif Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_d[:sf_volunteer_shift_id] && e_s.sf_shift_detail_id != "pending detail" && e_s.sf_shift_detail_id != nil}
-        companion_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
-        Shift.create!(sf_volunteer_shift_id: companion_shift[:sf_volunteer_shift_id],
+        sibling_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
+        Shift.create!(sf_volunteer_shift_id: sibling_shift[:sf_volunteer_shift_id],
                       sf_shift_detail_id: sf_d[:sf_shift_detail_id],
-                      sf_contact_id: companion_shift[:sf_contact_id],
-                      volunteer_id: companion_shift[:volunteer_id],
+                      sf_contact_id: sibling_shift[:sf_contact_id],
+                      volunteer_id: sibling_shift[:volunteer_id],
                       activity_id: "pending activity logic",
-                      date: sf_d[:date],
+                      date: Chronic.parse(sf_d[:date]),
+                      # .change(year: self.year)
                       # might need to be changed to date - calendar
                       hours: sf_d[:hours],
                       shift_name: sf_d[:shift_name],
-                      status: companion_shift[:status]
+                      status: sibling_shift[:status]
         # will be updating status from detail here in future
         )
       else
         puts "#{sf_d[:sf_shift_detail_id]} is a Rogue Detail without associated Volunteer Shift!"
       end
+
     end
     self.update!(last_sync: DateTime.now.utc.iso8601)
   end

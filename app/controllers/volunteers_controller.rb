@@ -6,7 +6,7 @@
   end
 
   def testaction
-
+    #needs to look at form to obtain params
       @firstname = params[:walkin][:name_first]
       @lastname = params[:walkin][:name_last]
       @email = params[:walkin][:name_last]

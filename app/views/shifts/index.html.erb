@@ -3,8 +3,12 @@
   <% @shifts = Shift.all %>
   <% @shifts.each do |s| %>
     <% if s.date == Date.today.to_s %>
-           <%= button_to('Confirm',
-                options = { :action => 'confirm', :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-        <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
-    <% end %>
+        <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong>
+        <% unless s.status == "Confirmed" %>
+            <%= button_to('Confirm',
+                          options = { :action => 'confirm', :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%></br>
+        <% else  %>
+        <%= "Confirmed!" %></br>
+        <% end %>
   <% end %>
+<% end %>

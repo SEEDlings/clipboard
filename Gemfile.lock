@@ -71,6 +71,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
+    chronic (0.10.2)
     code_analyzer (0.4.5)
       sexp_processor
     coderay (1.1.0)
@@ -297,6 +298,7 @@ DEPENDENCIES
   binding_of_caller
   brakeman
   capybara
+  chronic
   coffee-rails (~> 4.0.0)
   did_you_mean (~> 0.9.4)
   dotenv-rails

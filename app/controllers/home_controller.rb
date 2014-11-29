@@ -6,10 +6,8 @@ class HomeController < ApplicationController
     @volunteer = Volunteer.new
   end
 
-  Syncer.find_by(id: 1).syncup(@client)
-  
+  # Syncer.find_by(id: 1).syncup(@client)
+
 end
 
 private
-
-end

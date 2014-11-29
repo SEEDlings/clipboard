@@ -1,7 +1,7 @@
 class CreateShifts < ActiveRecord::Migration
   def change
     create_table :shifts do |t|
-      t.string :sf_id
+      t.string :sf_contact_id
       t.string :sf_volunteer_shift_id
       t.string :sf_shift_detail_id
       t.references :volunteer, index: true

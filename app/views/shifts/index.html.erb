@@ -1,10 +1,28 @@
 <h1>Volunteers Scheduled For Today</h1>
 
-  <% @shifts = Shift.all %>
-  <% @shifts.each do |s| %>
-    <% if s.date == Date.today.to_s %>
-           <%= button_to('Confirm',
-                options = { :action => 'confirm', :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-        <strong><%= s.sf_volunteer_shift_id %><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong></br>
-    <% end %>
+<% @all_shifts = Shift.all %>
+<% @todays_shifts = [] %>
+<% @all_shifts.each do |s| %>
+  <% if s.date == Date.today.to_s %>
+    <% @todays_shifts << s %>
   <% end %>
+<% end %>
+<% @todays_shifts_sorted = @todays_shifts.sort_by do |s| %>
+  <% Volunteer.find_by(sf_contact_id: s[:sf_contact_id]).name_last %>
+ <% end %>
+<% @todays_shifts_sorted.each do |s| %>
+
+  <%= button_to('Confirm',
+                options = { :action => 'confirm',
+                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
+  <%= button_to('Un-confirm',
+                options = { :action => 'unconfirm',
+                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
+  <%= button_to('Cancel',
+                options = { :action => 'cancellation',
+                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
+  <%= button_to('No-show',
+                options = { :action => 'no_show',
+                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
+  <strong><%= s.sf_volunteer_shift_id %><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> - <%= s.status %></strong></br>
+<% end %>

@@ -7,11 +7,9 @@
 
   def testaction
 
-  # this code checks sf to see if a contact exists then updates it
-  #     @volunteer = Volunteer.new
-  #     @firstname = 'Terry'
-  #     @lastname = 'Gilliam'
-  #     @email = 'terry@montypython.org'
+      @firstname = params[:walkin][:name_first]
+      @lastname = params[:walkin][:name_last]
+      @email = params[:walkin][:name_last]
       @existing_records = []
       @matching_names = []
       @existing = @client.query("select Id from contact where email = '#{@email}'")
@@ -26,7 +24,8 @@
       else
         puts 'We already have someone in the database with that email'
       end
-    end
+  end
+
   end
 
 

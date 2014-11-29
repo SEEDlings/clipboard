@@ -1,9 +1,9 @@
 <h1>Volunteers#testaction</h1>
 <p>Find me in app/views/volunteers/testaction.html.erb</p>
 
-<%= simple_form_for @volunteer do |f| %>
-    <%= f.input :name_first, label: 'Your first name please' %>
-    <%= f.input :name_last, label: 'Your last name please' %>
-    <%= f.input :email, placeholder: "lastname@volunteer.org if you don't have an email or prefer not to give it" %>
-    <%= f.button :testaction %>
+<%= simple_form_for :walkin, { url: walkin_path } do |f| %>
+    <%= f.input :name_first %>
+    <%= f.input :name_last %>
+    <%= f.input :email %>
+    <%= f.button :submit, "Add to database" %>
 <% end %>

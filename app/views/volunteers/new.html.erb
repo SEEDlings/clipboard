@@ -1,7 +1,10 @@
 
 <%= form_for @volunteer, url: volunteers_testaction_path do |f| %>
+    <%= f.label :first_name %>
     <%= f.text_field :name_first %>
+    <%= f.label :last_name %>
     <%= f.text_field :name_last %>
+    <%= f.label :email %>
     <%= f.text_field :email %>
     <%= f.submit "Submit" %>
 <% end %>

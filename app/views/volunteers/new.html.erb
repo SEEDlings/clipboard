@@ -1,0 +1,7 @@
+
+<%= form_for @volunteer, url: volunteers_testaction_path do |f| %>
+    <%= f.text_field :name_first %>
+    <%= f.text_field :name_last %>
+    <%= f.text_field :email %>
+    <%= f.submit "Submit" %>
+<% end %>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  get 'volunteers/testaction'
+  get 'volunteers/new'
+
+  post 'volunteers/testaction'
 
   post 'shifts/confirm'
 

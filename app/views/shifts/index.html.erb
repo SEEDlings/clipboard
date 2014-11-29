@@ -1,5 +1,18 @@
 <h1>Volunteers Scheduled For Today</h1>
 
+<<<<<<< HEAD
+  <% @shifts = Shift.all %>
+  <% @shifts.each do |s| %>
+    <% if s.date == Date.today.to_s %>
+        <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></strong>
+        <% unless s.status == "Confirmed" %>
+            <%= button_to('Confirm',
+                          options = { :action => 'confirm', :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%></br>
+        <% else  %>
+        <%= "Confirmed!" %></br>
+        <% end %>
+  <% end %>
+=======
 <% @all_shifts = Shift.all %>
 <% @todays_shifts = [] %>
 <% @all_shifts.each do |s| %>
@@ -25,4 +38,5 @@
                 options = { :action => 'no_show',
                             :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
   <strong><%= s.sf_volunteer_shift_id %> <%= s.volunteer.name_first %> <%= s.volunteer.name_last %> - <%= s.status %></strong></br>
+>>>>>>> bcfd659800e3dd9a732860af09adb13d9d35b012
 <% end %>

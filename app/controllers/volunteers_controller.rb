@@ -21,7 +21,7 @@ class VolunteersController < ApplicationController
       @matching_names << client.find('Contact', "#{o}")
     end
     if @matching_names.empty?
-      @client.create!('Contact', FirstName: testaction_params[:name_first], LastName: testaction_params[:name_last], Email: testaction_params[:email] )
+      sf_id = @client.create!('Contact', FirstName: testaction_params[:name_first], LastName: testaction_params[:name_last], Email: testaction_params[:email] )
         Volunteer.find_or_create_by!(email: testaction_params[:email]) do |volunteer|
             volunteer.name_first = testaction_params[:name_first]
             volunteer.name_last = testaction_params[:name_last]
@@ -29,6 +29,9 @@ class VolunteersController < ApplicationController
     else
       puts 'We already have someone in the database with that email'
     end
+    sf_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Shift_Status__c: "Confirmed" )
+    @client.create!('SEEDS_Vol_Shift_Detail__c', Shift__c: sf_shift_id, Shift_Hours__c: 3.00, Date_Text__c: Date.today.strftime("%A %B %d"))
+
   end
 
   private

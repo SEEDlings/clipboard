@@ -22,11 +22,10 @@ class VolunteersController < ApplicationController
     end
     if @matching_names.empty?
       @client.create!('Contact', FirstName: testaction_params[:name_first], LastName: testaction_params[:name_last], Email: testaction_params[:email] )
-        # Volunteer.find_or_create_by(email: 'testaction_params[:email]') do |volunteer|
-        #     volunteer.name_first = 'testaction_params[:name_first]'
-        #     volunteer.name_last = 'testaction_params[:name_last]'
-        #   end
-        # end
+        Volunteer.find_or_create_by!(email: testaction_params[:email]) do |volunteer|
+            volunteer.name_first = testaction_params[:name_first]
+            volunteer.name_last = testaction_params[:name_last]
+          end
     else
       puts 'We already have someone in the database with that email'
     end

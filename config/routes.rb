@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'volunteers/testaction'
+  get 'volunteers/new'
+
+  post 'volunteers/testaction'
 
   post 'shifts/confirm'
+  post 'shifts/unconfirm'
+  post 'shifts/cancellation'
+  post 'shifts/no_show'
 
   root 'home#index'
 

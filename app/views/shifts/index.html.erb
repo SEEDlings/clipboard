@@ -10,6 +10,7 @@
 <% @todays_shifts_sorted = @todays_shifts.sort_by do |s| %>
   <% Volunteer.find_by(sf_contact_id: s[:sf_contact_id]).name_last %>
 <% end %>
+
 <% @todays_shifts_sorted.each do |s| %>
 
   <%= button_to('Confirm',

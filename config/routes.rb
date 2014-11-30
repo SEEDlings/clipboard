@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   get 'volunteers/new'
 
-  post 'volunteers/testaction'
+  post 'volunteers/sfcreate'
 
   post 'shifts/confirm'
   post 'shifts/unconfirm'

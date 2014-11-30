@@ -6,7 +6,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Confirmed")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'Confirmed')
     end
-    render partial: 'shifts/index'
+    render 'home/index'
   end
 
   def unconfirm
@@ -14,7 +14,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Sign Up")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'Sign Up')
     end
-    render partial: 'shifts/index'
+    render 'home/index'
   end
 
   def cancellation
@@ -22,7 +22,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Canceled")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'Canceled')
     end
-    render partial: 'shifts/index'
+    render 'home/index'
   end
 
   def no_show
@@ -30,7 +30,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "No Show")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'No Show')
     end
-    render 'index'
+    render 'home/index'
   end
 end
 

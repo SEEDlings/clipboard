@@ -59,6 +59,7 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
+
 group :test do
   gem 'simplecov', :require => false
 end
@@ -69,5 +70,6 @@ gem 'restforce'
 gem 'omniauth'
 gem "omniauth-salesforce", :git => 'git://github.com/mohamed-mahmoud/omniauth-salesforce.git'
 gem 'chronic'
+gem 'simple_form'
 gem 'rails_12factor'
 gem 'foundation-rails'

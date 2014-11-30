@@ -1,0 +1,10 @@
+<% @volunteer = Volunteer.new %>
+<%= form_for @volunteer, url: volunteers_sfcreate_path do |f| %>
+    <%= f.label :first_name %>
+    <%= f.text_field :name_first %>
+    <%= f.label :last_name %>
+    <%= f.text_field :name_last %>
+    <%= f.label :email  %>(If no email, use firstlast@seedsncvolunteer.org)
+    <%= f.text_field :email %>
+    <%= f.submit "Submit" %>
+<% end %>

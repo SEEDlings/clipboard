@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
 def index
   return unless logged_in?
+  Syncer.find_by(id: 1).syncup(@client)
 end
 
 def sync

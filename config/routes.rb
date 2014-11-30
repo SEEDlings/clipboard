@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'shifts/no_show'
 
   root 'home#index'
+  get 'home/sync'
 
   get 'sessions/create'
 

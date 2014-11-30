@@ -72,4 +72,4 @@ gem "omniauth-salesforce", :git => 'git://github.com/mohamed-mahmoud/omniauth-sa
 gem 'chronic'
 gem 'simple_form'
 gem 'rails_12factor'
-
+gem 'foundation-rails'

@@ -47,7 +47,7 @@ class VolunteersController < ApplicationController
 
     end
 
-    redirect_to shifts_index_path
+    render 'home/index'
   end
 
   private

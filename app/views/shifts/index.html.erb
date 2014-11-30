@@ -24,6 +24,7 @@
   <%= button_to('No-show',
                 options = { :action => 'no_show',
                             :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-  <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> - <%= s.status %></strong></br>
+
+  <strong><%= s.sf_volunteer_shift_id %> <%= s.volunteer.name_first %> <%= s.volunteer.name_last %> - <%= s.status %></strong></br>
 
 <% end %>

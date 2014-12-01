@@ -1,0 +1,50 @@
+<h2>Today's Volunteers</h2>
+<div class="row">
+  <div class="small-11 small-centered large-centered columns">
+    <p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
+
+    <% @all_shifts = Shift.all %>
+    <% @todays_shifts = [] %>
+    <% @all_shifts.each do |s| %>
+    <% if s.date == Date.today.to_s %>
+    <% @todays_shifts << s %>
+    <% end %>
+    <% end %>
+    <% @todays_shifts_sorted = @todays_shifts.sort_by do |s| %>
+    <% Volunteer.find_by(sf_contact_id: s[:sf_contact_id]).name_last %>
+    <% end %>
+
+    <% @todays_shifts_sorted.each do |s| %>
+    <ul class="inline-list">
+      <li>
+        <%= button_to('Confirm',
+        options = { :action => 'confirm',
+          :controller => 'shifts',
+          :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+          :class => 'button radius small')%>
+          <%#= button_to('Un-confirm',
+          options = { :action => 'unconfirm',
+          :controller => 'shifts',
+          :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+          :class => 'button radius')%>
+          <%#= button_to('Cancel',
+          options = { :action => 'cancellation',
+          :controller => 'shifts',
+          :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+          :class => 'button radius')%>
+
+        </li>
+        <li>
+          <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</p>
+        </li>
+        <li>
+          <%= button_to('No-show',
+          options = { :action => 'no_show',
+            :controller => 'shifts',
+            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+            :class => 'button radius tiny secondary')%>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+  </div>

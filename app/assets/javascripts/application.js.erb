@@ -12,9 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require turbolinks
 //= require_tree .
 
-$(document).ready(function() {
-$.ajax("/home/sync")
-});
+var sync = function() {
+  console.log("Yay");
+};
+
+$(function(){ $(document).foundation(); });

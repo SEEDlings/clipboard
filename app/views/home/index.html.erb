@@ -1,6 +1,0 @@
-<% if logged_in? %>
-<h1>Woo, you are logged in as <%= current_user.name %>!</h1>
-<%= link_to 'Log out', sessions_destroy_path, :method => :delete %>
-<% else %>
-<a href="/auth/salesforcesandbox" class="button"><%= 'Log in via Salesforce' %></a>
-<% end %>

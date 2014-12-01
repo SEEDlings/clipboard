@@ -1,4 +1,5 @@
-<h1>Volunteers Scheduled For Today</h1>
+<h2>Today's Volunteers</h2>
+<p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
 
 <% @all_shifts = Shift.all %>
 <% @todays_shifts = [] %>
@@ -11,18 +12,32 @@
   <% Volunteer.find_by(sf_contact_id: s[:sf_contact_id]).name_last %>
  <% end %>
 <% @todays_shifts_sorted.each do |s| %>
-  <%= button_to('Confirm',
-                options = {  :action => 'confirm', :controller => 'shifts',
-                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-  <%= button_to('Un-confirm',
-                options = { :action => 'unconfirm', :controller => 'shifts',
-                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-  <%= button_to('Cancel',
-                options = { :action => 'cancellation', :controller => 'shifts',
-                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-  <%= button_to('No-show',
-                options = { :action => 'no_show', :controller => 'shifts',
-                            :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}})%>
-  <strong><%= s.sf_volunteer_shift_id %> <%= s.volunteer.name_first %> <%= s.volunteer.name_last %> - <%= s.status %></strong></br>
+  <ul class="inline-list">
+    <li>
+      <%= button_to('Confirm',
+                    options = { :action => 'confirm',
+                                :controller => 'shifts',
+                                :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                    :class => 'button radius small')%>
+      <%#= button_to('Un-confirm',
+                    options = { :action => 'unconfirm',
+                                :controller => 'shifts',
+                                :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                    :class => 'button radius')%>
+      <%#= button_to('Cancel',
+                    options = { :action => 'cancellation',
+                                :controller => 'shifts',
+                                :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                    :class => 'button radius')%>
+      <%#= button_to('No-show',
+                    options = { :action => 'no_show',
+                                :controller => 'shifts',
+                                :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                    :class => 'button radius')%>
+    </li>
+    <li>
+      <strong><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</strong>
+    </li>
+  </ul>
 <% end %>
 

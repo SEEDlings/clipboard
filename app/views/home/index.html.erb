@@ -1,8 +1,15 @@
 <% if logged_in? %>
-  <h1>Woo, you are logged in as <%= current_user.name %>!</h1>
+  <div class="row">
+    <div class="small-9 small-centered large-uncentered columns">
+  <h1>SEEDS Clipboard</h1>
+  <p>
+    Logged in as <%= current_user.name %>&nbsp&nbsp
+    <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
+  </p>
     <%= render 'shifts/index'%>
     <%= render 'volunteers/new'%>
-  <%= link_to 'Log out', sessions_destroy_path, :method => :delete %>
+    </div>
+  </div>
 <% else %>
   <a href="/auth/salesforcesandbox" class="button"><%= 'Log in via Salesforce' %></a>
 <% end %>

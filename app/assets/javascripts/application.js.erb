@@ -18,7 +18,14 @@
 
 $(function(){ $(document).foundation(); });
 
-
-var sync = function() {
-  console.log("Yay");
-};
+$(document).ready(function() {
+  if($("#shift_index").length > 0) {
+    $.ajax({
+      url: "/shifts/sync",
+      type: "GET",
+      success: function (html) {
+        $("#shift_index").html(html);
+      }
+    });
+  }
+});

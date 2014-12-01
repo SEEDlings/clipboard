@@ -12,13 +12,14 @@
 
 <% unless @todays_shifts_sorted.empty? %>
   <% @todays_shifts_sorted.each do |s| %>
-    <ul class="inline-list">
-      <li>
+
+    <div class="row">
+      <div class="small-3 columns">
         <%= button_to('Confirm',
                       options = { :action => 'confirm',
                                   :controller => 'shifts',
                                   :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                      :class => 'button radius small')%>
+                      :class => 'button radius small expand')%>
         <%#= button_to('Un-confirm',
                     options = { :action => 'unconfirm',
                                 :controller => 'shifts',
@@ -29,19 +30,18 @@
                                 :controller => 'shifts',
                                 :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
                     :class => 'button radius')%>
-
-      </li>
-      <li>
+      </div>
+      <div class="small-6 columns">
         <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</p>
-      </li>
-      <li>
+      </div>
+      <div class="small-3 columns">
         <%= button_to('No-show',
                       options = { :action => 'no_show',
                                   :controller => 'shifts',
                                   :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
                       :class => 'button radius tiny secondary')%>
-      </li>
-    </ul>
+      </div>
+    </div>
   <% end %>
 <% else %>
   <p>No volunteers signed up for today</p>

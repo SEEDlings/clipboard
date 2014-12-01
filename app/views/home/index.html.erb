@@ -6,16 +6,17 @@
         Logged in as <%= current_user.name %>&nbsp&nbsp
         <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
       </p>
+      <h3>Today's Volunteers</h3>
       <div class="row">
         <div class="small-11 small-centered large-centered columns">
-          <h3>Today's Volunteers</h3>
           <p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
           <div id="shift_index"><p>Syncing with Salesforce...</p></div>
-          <%= render 'volunteers/new'%>
         </div>
+        <%= render 'volunteers/new'%>
       </div>
     </div>
   </div>
+
 <% else %>
   <div class="row">
     <div class="small-10 small-centered large-centered columns">

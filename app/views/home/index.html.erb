@@ -1,15 +1,27 @@
 <% if logged_in? %>
   <div class="row">
-    <div class="small-9 small-centered large-uncentered columns">
-  <h1>SEEDS Clipboard</h1>
-  <p>
-    Logged in as <%= current_user.name %>&nbsp&nbsp
-    <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
-  </p>
-    <%= render 'shifts/index'%>
-    <%= render 'volunteers/new'%>
+    <div class="small-10 small-centered large-centered columns">
+     <h1 class="centered">SEEDS Clipboard</h1>
+
+      <p class="centered">
+        Logged in as <%= current_user.name %>&nbsp&nbsp
+        <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
+      </p>
+      <%= render 'shifts/index'%>
+      <%= render 'volunteers/new'%>
     </div>
   </div>
 <% else %>
-  <a href="/auth/salesforcesandbox" class="button"><%= 'Log in via Salesforce' %></a>
+  <div class="row">
+    <div class="small-10 small-centered large-centered columns">
+      <br>
+      <br>
+      <h1 class="centered">SEEDS Clipboard</h1>
+      <br>
+      <br>
+      <div class="small-4 small-centered large-centered columns">
+        <a href="/auth/salesforcesandbox" class="button radius"><%= 'Log in via Salesforce' %></a>
+      </div>
+    </div>
+  </div>
 <% end %>

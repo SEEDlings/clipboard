@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  user_id: 1
   provider: SalesForce
   uid: MyString
-  instance_url: MyString
-  oauth_token: MyString
-  refresh_token: MyString
+  instance_url: salesforce.test
+  oauth_token: 456a
+  refresh_token: 123a
 
 two:
-  user_id: 
-  provider: MyString
+  user_id: 2
+  provider: Salesforce
   uid: MyString
-  instance_url: MyString
-  oauth_token: MyString
-  refresh_token: MyString
+  instance_url: salesforce.test
+  oauth_token: 456b
+  refresh_token: 123b

@@ -32,5 +32,9 @@ class ShiftsController < ApplicationController
     end
     render 'home/index'
   end
-end
 
+  def sync
+    Syncer.find_by(id: 1).syncup(@client)
+    render partial: "index"
+  end
+end

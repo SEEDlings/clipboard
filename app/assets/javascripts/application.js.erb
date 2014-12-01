@@ -17,3 +17,15 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+
+$(document).ready(function() {
+  if($("#shift_index").length > 0) {
+    $.ajax({
+      url: "/shifts/sync",
+      type: "GET",
+      success: function (html) {
+        $("#shift_index").html(html);
+      }
+    });
+  }
+});

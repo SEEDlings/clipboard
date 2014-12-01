@@ -7,8 +7,16 @@
         Logged in as <%= current_user.name %>&nbsp&nbsp
         <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
       </p>
+      <div class="row">
+        <div class="small-11 small-centered large-centered columns">
+      <h3>Today's Volunteers</h3>
+
+          <p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
       <div id="shift_index">Loading...</div>
+
       <%= render 'volunteers/new'%>
+          </div>
+        </div>
     </div>
   </div>
 <% else %>

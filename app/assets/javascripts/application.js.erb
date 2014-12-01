@@ -15,5 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-$.ajax("/shifts/Syncer")
+$(document).ready(function() {
+$.ajax("/home/sync")
 });

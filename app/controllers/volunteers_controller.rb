@@ -33,7 +33,7 @@ class VolunteersController < ApplicationController
       puts 'We already have someone in the database with that email'
     end
 
-    sf_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, Shift_Status__c: "Confirmed" )
+    sf_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, Name: "Volunteer Shift for #{sfcreate_params[:name_first]} #{sfcreate_params[:name_last]}", Shift_Status__c: "Confirmed" )
     sf_shift_detail_id = @client.create!('SEEDS_Vol_Shift_Detail__c', Shift__c: sf_shift_id, Shift_Hours__c: 3.00, Date_Text__c: Date.today.strftime("%A %B %d"))
     new_shift = Shift.find_or_create_by!(sf_shift_detail_id: sf_shift_detail_id ) do |shift|
       shift.sf_contact_id = sf_id

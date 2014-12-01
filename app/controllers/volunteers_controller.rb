@@ -56,7 +56,3 @@ class VolunteersController < ApplicationController
     params.require(:volunteer).permit(:name_first, :name_last, :email)
   end
 end
-
-
-
-

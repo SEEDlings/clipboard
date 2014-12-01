@@ -47,7 +47,7 @@ class VolunteersController < ApplicationController
 
     end
 
-    render 'home/index'
+    redirect_to root_path
   end
 
   private

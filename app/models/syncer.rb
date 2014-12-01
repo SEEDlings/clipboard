@@ -88,6 +88,7 @@ class Syncer < ActiveRecord::Base
         puts "Existing Shift found, updating from Shift Detail #{sf_d[:sf_shift_detail_id]}"
         updated_shift = Shift.find_by(sf_shift_detail_id: sf_d[:sf_shift_detail_id])
         updated_shift.update!(sf_d)
+        updated_shift.update!(date: Chronic.parse(sf_d[:date]).to_date)
         puts "#{updated_shift.sf_shift_detail_id} was updated"
 
         # If there is an existing shift with the same "sf_volunteer_shift_id", and "sf_shift_detail_id" is "pending detail"

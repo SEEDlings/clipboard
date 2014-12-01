@@ -1,10 +1,10 @@
+<h3>Walk-in or New Volunteer</h3>
 <% @volunteer = Volunteer.new %>
+<div class="row">
 <%= form_for @volunteer, url: volunteers_sfcreate_path do |f| %>
-    <%= f.label :first_name %>
-    <%= f.text_field :name_first %>
-    <%= f.label :last_name %>
-    <%= f.text_field :name_last %>
-    <%= f.label :email  %>(If no email, use firstlast@seedsncvolunteer.org)
-    <%= f.text_field :email %>
-    <%= f.submit "Submit" %>
+  <%= f.text_field :name_first, placeholder: 'First Name' %>
+  <%= f.text_field :name_last, placeholder: 'Last Name' %>
+  <%= f.text_field :email, placeholder: 'Email' %>
+  <%= f.submit "Submit", :class => 'button radius small' %>
 <% end %>
+  </div>

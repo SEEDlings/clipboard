@@ -1,16 +1,22 @@
 <% if logged_in? %>
   <div class="row">
     <div class="small-10 small-centered large-centered columns">
-     <h1 class="centered">SEEDS Clipboard</h1>
-
+      <h1 class="centered">SEEDS Clipboard</h1>
       <p class="centered">
         Logged in as <%= current_user.name %>&nbsp&nbsp
         <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
       </p>
-      <div id="shift_index">Loading...</div>
-      <%= render 'volunteers/new'%>
+      <h3>Today's Volunteers</h3>
+      <div class="row">
+        <div class="small-11 small-centered large-centered columns">
+          <p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
+          <div id="shift_index"><p>Syncing with Salesforce...</p></div>
+        </div>
+        <%= render 'volunteers/new'%>
+      </div>
     </div>
   </div>
+
 <% else %>
   <div class="row">
     <div class="small-10 small-centered large-centered columns">

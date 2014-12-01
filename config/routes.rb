@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'shifts/sync'
 
   root 'home#index'
-  get 'home/sync', to: 'home#sync'
+  # get 'home/sync', to: 'home#sync'
 
   get 'sessions/create'
 

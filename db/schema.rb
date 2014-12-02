@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202152806) do
+ActiveRecord::Schema.define(version: 20141202183854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20141202152806) do
     t.datetime "updated_at"
     t.string   "shift_name"
     t.string   "year"
-    t.string   "type"
+    t.string   "shift_type"
   end
 
   add_index "shifts", ["activity_id"], name: "index_shifts_on_activity_id", using: :btree

@@ -34,6 +34,9 @@
       <div class="small-6 columns">
         <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</p>
       </div>
+      <div class="small-6 columns">
+        <p class="checklist"><%= s.shift_type %> <%= s.shift_type %></p>
+      </div>
       <div class="small-3 columns">
         <%= button_to('No-show',
                       options = { :action => 'no_show',

@@ -1,0 +1,6 @@
+<% @shift = Shift.new %>
+<%= form_for @shift, url: volunteers_sfcreate_path do |f| %>
+<div class="small-6 columns">
+  <%= f.text_field :shift_type, placeholder: 'Shift Type' %>
+</div>
+<% end %>

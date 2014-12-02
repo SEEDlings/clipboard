@@ -57,7 +57,7 @@ class Syncer < ActiveRecord::Base
       # update the status
       if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_s[:sf_volunteer_shift_id] }
         puts "Existing Shift(s) found, updating from Volunteer Shift #{sf_s[:sf_volunteer_shift_id]}"
-        updated_shift = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])
+        updated_shift = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])[0]
         updated_shift.update!(status: sf_s[:status])
         puts "status updated"
         # above currently only updates status - do we want to allow for ANY field updates from SF?
@@ -94,7 +94,18 @@ class Syncer < ActiveRecord::Base
     self.update!(last_sync: DateTime.now.utc.iso8601)
   end
 
-  def full_sync
-    # as above, without conditional(s)(?)
+  def update_no_shows(client)
+    sign_ups = Shift.where(status: "Sign Up")
+    sign_ups.each do |su|
+      if su.date.to_date < Date.today
+        puts "Expired Sign Up found for #{su.sf_volunteer_shift_id}, changing to No Show"
+        if client.update!('SEEDS_Volunteer_Shifts__c',
+                           Id: "#{su.sf_volunteer_shift_id}",
+                           Shift_Status__c: "No Show")
+          Shift.find_by(sf_volunteer_shift_id: su.sf_volunteer_shift_id).update!(status: 'No Show')
+          puts "Updated #{su.sf_volunteer_shift_id} to No Show"
+        end
+      end
+    end
   end
 end

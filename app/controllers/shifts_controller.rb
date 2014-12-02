@@ -1,6 +1,12 @@
 class ShiftsController < ApplicationController
   before_action :client
 
+  def sync
+    Syncer.find_by(id: 1).syncup(@client)
+    render partial: "index"
+    Syncer.find_by(id: 1).update_no_shows(@client)
+  end
+
   def confirm
     shift = params[:sf_volunteer_shift_id]
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Confirmed")
@@ -31,10 +37,5 @@ class ShiftsController < ApplicationController
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'No Show')
     end
     redirect_to root_path
-  end
-
-  def sync
-    Syncer.find_by(id: 1).syncup(@client)
-    render partial: "index"
   end
 end

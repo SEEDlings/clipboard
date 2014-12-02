@@ -12,7 +12,7 @@
           <p><%= Date.today.strftime('%A, %B %-d, %Y') %></p>
           <div id="shift_index"><p>Syncing with Salesforce...</p></div>
         </div>
-        <%= render 'volunteers/new'%>
+        <%= render 'volunteers/new', :locals => { :shift => @shift } %>
       </div>
     </div>
   </div>

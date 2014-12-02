@@ -33,20 +33,19 @@ class VolunteersController < ApplicationController
       puts 'We already have someone in the database with that email'
     end
 
-    sf_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, Name: "Volunteer Shift for #{sfcreate_params[:name_first]} #{sfcreate_params[:name_last]}", Shift_Status__c: "Confirmed" )
-    sf_shift_detail_id = @client.create!('SEEDS_Vol_Shift_Detail__c', Shift__c: sf_shift_id, Shift_Hours__c: 3.00, Date_Text__c: Date.today.strftime("%A %B %d"))
-    new_shift = Shift.find_or_create_by!(sf_shift_detail_id: sf_shift_detail_id ) do |shift|
-      shift.sf_contact_id = sf_id
-      shift.date = Date.today.to_s
-      shift.hours = 3.00
-      shift.status = "Confirmed"
-      shift.year = Time.now.year
-      shift.sf_volunteer_shift_id = sf_shift_id
-      shift.sf_shift_detail_id = sf_shift_detail_id
-      shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
-
+    if params[:shift_type] == 'Garden Morning'
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Morning_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
+        shift.sf_contact_id = sf_id
+        shift.date = Date.today.to_s
+        shift.shift_type = params[:shift_type]
+        shift.hours = 3.00
+        shift.status = "Confirmed"
+        shift.year = Time.now.year
+        shift.sf_volunteer_shift_id = sf_volunteer_shift_id
+        shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+      end
     end
-
     redirect_to root_path
   end
 

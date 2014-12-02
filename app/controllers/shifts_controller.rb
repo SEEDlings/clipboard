@@ -5,6 +5,7 @@ class ShiftsController < ApplicationController
     Syncer.find_by(id: 1).syncup(@client)
     render partial: "index"
     Syncer.find_by(id: 1).update_no_shows(@client)
+
   end
 
   def confirm

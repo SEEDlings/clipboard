@@ -7,7 +7,7 @@
         Logged in as <%= current_user.name %>&nbsp&nbsp
         <%= link_to '(Log out)', sessions_destroy_path, :method => :delete %>
       </p>
-      <div id="shift_index">Loading...</div>
+      <div id="shift_index"><progress>Loading...</progress></div>
       <%= render 'volunteers/new'%>
     </div>
   </div>

@@ -1,6 +1,10 @@
 class ShiftsController < ApplicationController
   before_action :client
 
+  def new
+
+  end
+
   def confirm
     shift = params[:sf_volunteer_shift_id]
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Confirmed")

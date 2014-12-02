@@ -3,19 +3,14 @@ class Syncer < ActiveRecord::Base
   def syncup(client)
     volunteers = []
     shifts = []
-    details = []
 
     updated_contacts = client.query(
         "SELECT Id, FirstName, LastName, Email
         FROM Contact
         WHERE SystemModstamp > #{self.last_sync}")
     updated_shifts = client.query(
-        "SELECT Id, Name, Volunteer_Name__c, Month_Calendar__c, Year__c, Shift_Status__c, Work_in_the_Gardens__c, Morning_Shift__c, Afternoon_Shift__c, Be_a_Guest_Chef__c, Guest_Chef_Shift__c, Volunteer_with_DIG__c, DIG_Shift__c
+        "SELECT Id, Name, Volunteer_Name__c, ShiftType__c, Date_Text__c, Year__c, Hours__c, Shift_Status__c, Morning_Shift_Date__c, Afternoon_Shift_Date__c, Guest_Chef_Shift__c, DIG_Shift__c, Special_Needs_Allergies__c
         FROM SEEDS_Volunteer_Shifts__c
-        WHERE SystemModstamp > #{self.last_sync}")
-    updated_details = client.query(
-        "SELECT Id, Shift__c, Shift_Name__c, Date_Text__c, Date_Calendar__c, Shift_Hours__c
-        FROM SEEDS_Vol_Shift_Detail__c
         WHERE SystemModstamp > #{self.last_sync}")
 
     updated_contacts.current_page.each do |o|
@@ -25,19 +20,20 @@ class Syncer < ActiveRecord::Base
                      email: o.Email}
     end
     updated_shifts.current_page.each do |o|
-      # logic to turn job type bools into a Activity
-      shifts << {sf_volunteer_shift_id: o.Id,
-                 sf_contact_id: o.Volunteer_Name__c,
-                 status: o.Shift_Status__c,
-                 year: o.Year__c}
-    end
-    updated_details.current_page.each do |o|
-      details << {sf_shift_detail_id: o.Id,
-                  sf_volunteer_shift_id: o.Shift__c,
-                  shift_name: o.Shift_Name__c,
+      shifts << { sf_volunteer_shift_id: o.Id,
+                  shift_name: o.Name,
+                  sf_contact_id: o.Volunteer_Name__c,
+                  shift_type: o.ShiftType__c,
+                  status: o.Shift_Status__c,
+                  year: o.Year__c,
                   date: o.Date_Text__c,
-                  # may need to be changed to date - calendar, etc.
-                  hours: o.Shift_Hours__c}
+                  hours: o.Hours__c,
+                  morning_shift: o.Morning_Shift_Date__c,
+                  afternoon_shift: o.Afternoon_Shift_Date__c,
+                  guest_chef_shift: o.Guest_Chef_Shift__c,
+                  dig_shift: o.DIG_Shift__c,
+                  notes: o.Special_Needs_Allergies__c
+      }
     end
 
     volunteers.each do |sf_v|
@@ -57,71 +53,44 @@ class Syncer < ActiveRecord::Base
     end
 
     shifts.each do |sf_s|
-      # If there are any (COULD BE MULTIPLE) shifts with the same sf_volunteer_shift_id
+      # If there is a Shift with the same sf_volunteer_shift_id
       # update the status
       if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_s[:sf_volunteer_shift_id] }
         puts "Existing Shift(s) found, updating from Volunteer Shift #{sf_s[:sf_volunteer_shift_id]}"
-        updated_shifts = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])
-        updated_shifts.each {|s| s.update!(status: sf_s[:status]) }
+        updated_shift = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])
+        updated_shift.update!(status: sf_s[:status])
         puts "status updated"
-        # !!! remove when status is moved to detail instead of vol shift
+        # above currently only updates status - do we want to allow for ANY field updates from SF?
+
       else
         puts "No existing Shift found, creating Shift #{sf_s[:sf_volunteer_shift_id]}"
-        Shift.create!(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id],
-                      sf_shift_detail_id: "pending detail",
-                      sf_contact_id: sf_s[:sf_contact_id],
-                      volunteer_id: Volunteer.find_by(sf_contact_id: sf_s[:sf_contact_id]).id,
-                      activity_id: "pending activity logic",
-                      # give activity_id when that logic is in place
-                      date: "pending detail",
-                      year: sf_s[:year],
-                      hours: "pending detail",
-                      shift_name: "pending detail",
-                      status: sf_s[:status] )
+        new_shift = Shift.create!(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id],
+                                  shift_name: sf_s[:shift_name],
+                                  sf_contact_id: sf_s[:sf_contact_id],
+                                  volunteer_id: Volunteer.find_by(sf_contact_id: sf_s[:sf_contact_id]).id,
+                                  shift_type: sf_s[:shift_type],
+                                  status: sf_s[:status],
+                                  year: sf_s[:year],
+                                  date: "pending parse",
+                                  hours: sf_s[:hours])
+
+        # add date from a shift type field in this priority...
+        if sf_s[:guest_chef_shift] != nil
+          date = Chronic.parse(sf_s[:guest_chef_shift]).to_date
+        elsif sf_s[:dig_shift] != nil
+          date = Chronic.parse(sf_s[:dig_shift]).to_date
+        elsif sf_s[:date] != nil
+          date = Chronic.parse(sf_s[:date]).to_date
+        elsif sf_s[:morning_shift] != nil
+          date = Chronic.parse(sf_s[:morning_shift]).to_date
+        elsif sf_s[:afternoon_shift] != nil
+          date = Chronic.parse(sf_s[:afternoon_shift]).to_date
+        end
+        new_shift.update!(date: date)
         puts "Created"
       end
     end
 
-    details.each do |sf_d|
-      # If there is an existing shift with both the same "sf_volunteer_shift_id" AND "sf_shift_detail_id"
-      if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_d[:sf_volunteer_shift_id] && e_s.sf_shift_detail_id == sf_d[:sf_shift_detail_id]}
-        puts "Existing Shift found, updating from Shift Detail #{sf_d[:sf_shift_detail_id]}"
-        updated_shift = Shift.find_by(sf_shift_detail_id: sf_d[:sf_shift_detail_id])
-        updated_shift.update!(sf_d)
-        updated_shift.update!(date: Chronic.parse(sf_d[:date]).to_date)
-        puts "#{updated_shift.sf_shift_detail_id} was updated"
-
-        # If there is an existing shift with the same "sf_volunteer_shift_id", and "sf_shift_detail_id" is "pending detail"
-        # update it with the detail info
-      elsif Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_d[:sf_volunteer_shift_id] && e_s.sf_shift_detail_id == "pending detail"}
-        puts "Shift pending detail found, filling in pending info with Shift Detail #{sf_d[:sf_shift_detail_id]}"
-        partial_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
-        partial_shift.update!(sf_d)
-        partial_shift.update!(date: Chronic.parse(sf_d[:date]).to_date)
-        puts "Pending Shift #{partial_shift.sf_shift_detail_id} was completed with detail info"
-
-        # If there is an existing shift with the same "sf_volunteer_shift_id", and "sf_shift_detail_id" is NOT "pending detail" OR nil
-        # create a new Shift with the same "sf_volunteer_shift_id" info, and the new detail info
-      elsif Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_d[:sf_volunteer_shift_id] && e_s.sf_shift_detail_id != "pending detail" && e_s.sf_shift_detail_id != nil}
-        sibling_shift = Shift.find_by(sf_volunteer_shift_id: sf_d[:sf_volunteer_shift_id])
-        Shift.create!(sf_volunteer_shift_id: sibling_shift[:sf_volunteer_shift_id],
-                      sf_shift_detail_id: sf_d[:sf_shift_detail_id],
-                      sf_contact_id: sibling_shift[:sf_contact_id],
-                      volunteer_id: sibling_shift[:volunteer_id],
-                      activity_id: "pending activity logic",
-                      date: Chronic.parse(sf_d[:date]).to_date,
-                      # .change(year: self.year)
-                      # might need to be changed to date - calendar
-                      hours: sf_d[:hours],
-                      shift_name: sf_d[:shift_name],
-                      status: sibling_shift[:status]
-        # will be updating status from detail here in future
-        )
-      else
-        puts "#{sf_d[:sf_shift_detail_id]} is a Rogue Detail without associated Volunteer Shift!"
-      end
-
-    end
     self.update!(last_sync: DateTime.now.utc.iso8601)
   end
 

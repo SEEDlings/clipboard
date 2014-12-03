@@ -33,6 +33,7 @@
         puts 'We already have someone in the database with that email'
       end
 
+<<<<<<< HEAD
     if params[:shift_type] == 'Garden Morning'
         sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Morning_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
 
@@ -48,8 +49,63 @@
     elsif params[:shift_type] == 'Admin/Office'
     sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type], Date_Text__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
 
+    elsif params[:shift_type] == 'Garden Afternoon'
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
+        shift.sf_contact_id = sf_id
+        shift.date = Date.today.to_s
+        shift.shift_type = params[:shift_type]
+        shift.hours = 3.00
+        shift.status = "Confirmed"
+        shift.year = Time.now.year
+        shift.sf_volunteer_shift_id = sf_volunteer_shift_id
+        shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+      end
+
+    elsif params[:shift_type] == 'DIG'
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  DIG_Shift__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
+        shift.sf_contact_id = sf_id
+        shift.date = Date.today.to_s
+        shift.shift_type = params[:shift_type]
+        shift.hours = 3.00
+        shift.status = "Confirmed"
+        shift.year = Time.now.year
+        shift.sf_volunteer_shift_id = sf_volunteer_shift_id
+        shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+      end
+
+    elsif params[:shift_type] == 'Guest Chef'
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type], Guest_Chef_Shift__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
+        shift.sf_contact_id = sf_id
+        shift.date = Date.today
+        shift.shift_type = params[:shift_type]
+        shift.hours = 3.00
+        shift.status = "Confirmed"
+        shift.year = Time.now.year
+        shift.sf_volunteer_shift_id = sf_volunteer_shift_id
+        shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+      end
+>>>>>>> 4067481d2faa00615031cfc3a4ef9eb1aa016038
+
+    elsif params[:shift_type] == 'Admin/Office'
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type], Date_Text__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
+        shift.sf_contact_id = sf_id
+        shift.date = Date.today
+        shift.shift_type = params[:shift_type]
+        shift.hours = 3.00
+        shift.status = "Confirmed"
+        shift.year = Time.now.year
+        shift.sf_volunteer_shift_id = sf_volunteer_shift_id
+        shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+      end
+    end
+    redirect_to root_path
   end
 
+<<<<<<< HEAD
   new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
     shift.sf_contact_id = sf_id
     shift.date = Date.today.to_s
@@ -64,8 +120,13 @@
   end
 end
   private
+=======
+end
+>>>>>>> 4067481d2faa00615031cfc3a4ef9eb1aa016038
 
-  def sfcreate_params
-    params.require(:volunteer).permit(:name_first, :name_last, :email)
-  end
+private
+
+def sfcreate_params
+  params.require(:volunteer).permit(:name_first, :name_last, :email)
+end
 

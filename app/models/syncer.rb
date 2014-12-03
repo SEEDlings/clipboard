@@ -32,8 +32,7 @@ class Syncer < ActiveRecord::Base
                   afternoon_shift: o.Afternoon_Shift_Date__c,
                   guest_chef_shift: o.Guest_Chef_Shift__c,
                   dig_shift: o.DIG_Shift__c,
-                  notes: o.Special_Needs_Allergies__c
-      }
+                  notes: o.Special_Needs_Allergies__c }
     end
 
     volunteers.each do |sf_v|
@@ -48,7 +47,7 @@ class Syncer < ActiveRecord::Base
                           name_first: sf_v[:name_first],
                           name_last: sf_v[:name_last],
                           email: sf_v[:email])
-        puts "Created"
+        puts "Created Volunteer #{sf_v[:sf_contact_id]}"
       end
     end
 
@@ -58,9 +57,24 @@ class Syncer < ActiveRecord::Base
       if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_s[:sf_volunteer_shift_id] }
         puts "Existing Shift(s) found, updating from Volunteer Shift #{sf_s[:sf_volunteer_shift_id]}"
         updated_shift = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])[0]
+        updated_shift.update!(shift_type: sf_s[:shift_type])
         updated_shift.update!(status: sf_s[:status])
-        puts "status updated"
-        # above currently only updates status - do we want to allow for ANY field updates from SF?
+        updated_shift.update!(year: sf_s[:year])
+        updated_shift.update!(hours: sf_s[:hours])
+        updated_shift.update!(date: "pending parse")
+        if sf_s[:guest_chef_shift] != nil
+          date = Chronic.parse(sf_s[:guest_chef_shift]).to_date
+        elsif sf_s[:dig_shift] != nil
+          date = Chronic.parse(sf_s[:dig_shift]).to_date
+        elsif sf_s[:date] != nil
+          date = Chronic.parse(sf_s[:date]).to_date
+        elsif sf_s[:morning_shift] != nil
+          date = Chronic.parse(sf_s[:morning_shift]).to_date
+        elsif sf_s[:afternoon_shift] != nil
+          date = Chronic.parse(sf_s[:afternoon_shift]).to_date
+          end
+        updated_shift.update!(date: date)
+        puts "Updated Shift #{sf_s[:sf_volunteer_shift_id]}"
 
       else
         puts "No existing Shift found, creating Shift #{sf_s[:sf_volunteer_shift_id]}"
@@ -103,7 +117,7 @@ class Syncer < ActiveRecord::Base
                            Id: "#{su.sf_volunteer_shift_id}",
                            Shift_Status__c: "No Show")
           Shift.find_by(sf_volunteer_shift_id: su.sf_volunteer_shift_id).update!(status: 'No Show')
-          puts "Updated #{su.sf_volunteer_shift_id} to No Show"
+          puts "Updated Shift #{su.sf_volunteer_shift_id} status to No Show"
         end
       end
     end

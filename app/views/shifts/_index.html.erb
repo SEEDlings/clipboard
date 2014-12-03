@@ -12,7 +12,6 @@
 
 <% unless @todays_shifts_sorted.empty? %>
   <% @todays_shifts_sorted.each do |s| %>
-
     <div class="row">
       <div class="small-3 medium-2 columns">
         <%= button_to('Confirm',
@@ -31,7 +30,7 @@
                                 :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
                     :class => 'button radius')%>
       </div>
-      <div class="small-5 large-4 columns">
+      <div class="small-5 medium-4 large-3 columns">
         <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</p>
       </div>
       <div class="small-4 columns end">

@@ -5,4 +5,5 @@ class Shift < ActiveRecord::Base
   validates :date, presence: true
   validates :hours, presence: true
   validates :status, presence: true
+  validates :shift_type, presence: true
 end

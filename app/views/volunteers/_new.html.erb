@@ -12,17 +12,14 @@
         </div>
       </div>
       <div class="row">
-
-
-          <div class="small-6 columns">
-            <%= f.text_field :email, placeholder: 'Email' %>
-          </div>
-          <div class="small-3 columns">
-            <%= text_field_tag :shift_type, "", placeholder: 'Shift' %>
-          </div>
-          <div class="small-3 columns">
-            <%= f.submit "Submit", :class => 'button radius small expand' %>
-
+        <div class="small-6 columns">
+          <%= f.text_field :email, placeholder: 'Email' %>
+        </div>
+        <div class="small-3 columns">
+          <%= text_field_tag :shift_type, "", placeholder: 'Shift' %>
+        </div>
+        <div class="small-3 columns">
+          <%= f.submit "Submit", :class => 'button radius small expand' %>
         </div>
       </div>
     <% end %>

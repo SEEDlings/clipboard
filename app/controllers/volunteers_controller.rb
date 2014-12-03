@@ -34,7 +34,7 @@ class VolunteersController < ApplicationController
     end
 
     if params[:shift_type] == 'Garden Morning'
-      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Morning_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Morning_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed")
 
     elsif params[:shift_type] == 'Garden Afternoon'
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
@@ -61,6 +61,7 @@ class VolunteersController < ApplicationController
       shift.sf_volunteer_shift_id = sf_volunteer_shift_id
       shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
     end
+
     redirect_to root_path
   end
 end

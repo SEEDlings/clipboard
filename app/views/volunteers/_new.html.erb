@@ -18,7 +18,9 @@
             <%= f.text_field :email, placeholder: 'Email' %>
           </div>
           <div class="small-3 columns">
-            <%= text_field_tag :shift_type, "", placeholder: 'Shift' %>
+            <% type_options = ['','Garden Morning', 'Garden Afternoon', 'DIG', 'Guest Chef', 'Admin/Office'] %>
+            <%= select_tag(:shift_type, options_for_select(type_options)) %>
+            <!--<%= text_field_tag :shift_type, "", placeholder: 'Shift' %>-->
           </div>
           <div class="small-3 columns">
             <%= f.submit "Submit", :class => 'button radius small expand' %>

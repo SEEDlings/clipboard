@@ -14,10 +14,7 @@ class VolunteersController < ApplicationController
       @existing_records << o.Id
     end
 
-    @existing_records.each do |o|
-      @matching_names << client.find('Contact', "#{o}")
-    end
-    if @matching_names.empty?
+    if @existing_records.empty?
       sf_id = @client.create!('Contact', FirstName: sfcreate_params[:name_first], LastName: sfcreate_params[:name_last], Email: sfcreate_params[:email] )
       Volunteer.find_or_create_by!(email: sfcreate_params[:email]) do |volunteer|
         volunteer.name_first = sfcreate_params[:name_first]
@@ -26,7 +23,7 @@ class VolunteersController < ApplicationController
       end
 
     else
-      sf_id = @matching_names[0][:Id]
+      sf_id = @existing_records[0]
       puts 'We already have someone in the database with that email'
     end
 
@@ -47,10 +44,12 @@ class VolunteersController < ApplicationController
 
     elsif params[:shift_type] == 'Garden Afternoon'
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
-
     else
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Date_Text__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
     end
+
+    @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{sf_volunteer_shift_id}", Shift_Status__c: "Confirmed")
+
     new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
       shift.sf_contact_id = sf_id
       shift.date = Date.today.to_s

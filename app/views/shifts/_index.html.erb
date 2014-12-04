@@ -12,31 +12,45 @@
 
 <% unless @todays_shifts_sorted.empty? %>
   <% @todays_shifts_sorted.each do |s| %>
-    <div class="row">
-      <div class="small-3 medium-2 columns">
-        <%= button_to('Confirm',
-                      options = { :action => 'confirm',
-                                  :controller => 'shifts',
-                                  :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                      :class => 'button radius small expand')%>
-        <%#= button_to('Un-confirm',
-                    options = { :action => 'unconfirm',
-                                :controller => 'shifts',
-                                :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                    :class => 'button radius')%>
-        <%#= button_to('Cancel',
+    <% if s.status == "Sign Up" %>
+      <div class="row">
+        <div class="small-3 medium-2 columns">
+          <%= button_to('Here?',
+                        options = { :action => 'confirm',
+                                    :controller => 'shifts',
+                                    :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                        :class => 'button round small expand')%>
+          <%#= button_to('Cancel',
                     options = { :action => 'cancellation',
                                 :controller => 'shifts',
                                 :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
                     :class => 'button radius')%>
+        </div>
+        <div class="small-5 medium-4 large-3 columns">
+          <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></p>
+        </div>
+        <div class="small-4 columns end">
+          <p class="checklist"><%= s.shift_type %></p>
+        </div>
       </div>
-      <div class="small-5 medium-4 large-3 columns">
-        <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %> (<%= s.status %>)</p>
+    <% end %>
+    <% if s.status == "Confirmed" %>
+      <div class="row">
+        <div class="small-3 medium-2 columns">
+          <%= button_to('Here!',
+                        options = { :action => 'unconfirm',
+                                    :controller => 'shifts',
+                                    :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                        :class => 'button round small expand success')%>
+        </div>
+        <div class="small-5 medium-4 large-3 columns">
+          <p class="checklist"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></p>
+        </div>
+        <div class="small-4 columns end">
+          <p class="checklist"><%= s.shift_type %></p>
+        </div>
       </div>
-      <div class="small-4 columns end">
-        <p class="checklist"><%= s.shift_type %></p>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 <% else %>
   <p>No volunteers signed up for today</p>

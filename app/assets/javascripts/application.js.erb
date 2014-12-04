@@ -21,10 +21,20 @@ $(function(){ $(document).foundation(); });
 $(document).ready(function() {
   if($("#shift_index").length > 0) {
     $.ajax({
-      url: "/shifts/sync",
+      url: "/shifts/sync_and_list",
       type: "GET",
       success: function (html) {
         $("#shift_index").html(html);
+      },
+      error: function () {
+        $.ajax({
+          url: "/shifts/list",
+          type: "GET",
+          success: function (html) {
+            $("#shift_index").html(html);
+          }
+        });
+        alert("An error has occurred with Salesforce");
       }
     });
   }

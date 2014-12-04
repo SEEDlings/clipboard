@@ -80,4 +80,3 @@ private
 def sfcreate_params
   params.require(:volunteer).permit(:name_first, :name_last, :email)
 end
-

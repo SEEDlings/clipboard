@@ -32,12 +32,24 @@ class VolunteersController < ApplicationController
       sf_id = @matching_names[0][:Id]
       puts 'We already have someone in the database with that email'
     end
-
+    binding.pry
     if params[:shift_type] == 'Garden Morning'
-      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Morning_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c',
+                                              Volunteer_Name__c: sf_id,
+                                              Year__c: Time.now.year,
+                                              ShiftType__c: params[:shift_type],
+                                              Morning_Shift_Date__c: Date.today.strftime("%A %B %d"),
+                                              Hours__c: 3.00,
+                                              Shift_Status__c: "Confirmed" )
 
     elsif params[:shift_type] == 'Garden Afternoon'
-      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
+      sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c',
+                                              Volunteer_Name__c: sf_id,
+                                              Year__c: Time.now.year,
+                                              ShiftType__c: params[:shift_type],
+                                              Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"),
+                                              Hours__c: 3.00,
+                                              Shift_Status__c: "Confirmed" )
 
     elsif params[:shift_type] == 'DIG'
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  DIG_Shift__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
@@ -51,6 +63,7 @@ class VolunteersController < ApplicationController
     elsif params[:shift_type] == 'Garden Afternoon'
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c', Volunteer_Name__c: sf_id, Year__c: Time.now.year, ShiftType__c: params[:shift_type],  Afternoon_Shift_Date__c: Date.today.strftime("%A %B %d"), Hours__c: 3.00, Shift_Status__c: "Confirmed" )
     end
+
     new_shift = Shift.find_or_create_by!(sf_volunteer_shift_id: sf_volunteer_shift_id ) do |shift|
       shift.sf_contact_id = sf_id
       shift.date = Date.today.to_s

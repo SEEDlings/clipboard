@@ -82,4 +82,4 @@ production:
   <<: *default
   database: clipboard_production
   username: clipboard
-  password: <%= ENV['CLIPBOARD_DATABASE_PASSWORD'] %>
+  password:

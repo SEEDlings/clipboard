@@ -25,10 +25,10 @@ $(document).ready(function() {
       type: "GET",
       success: function (html) {
         $("#shift_index").html(html);
-      }
-      failure: function (html) {
-        $("#shift_index").html(html);
-        alert: "An error occurred with the Salesforce Database"
+    //  }
+      //failure: function (html) {
+        //$("#shift_index").html(html);
+        //alert: "An error occurred with the Salesforce Database"
       }
     });
   }

@@ -32,7 +32,6 @@ class VolunteersController < ApplicationController
       sf_id = @matching_names[0][:Id]
       puts 'We already have someone in the database with that email'
     end
-    binding.pry
     if params[:shift_type] == 'Garden Morning'
       sf_volunteer_shift_id = @client.create!('SEEDS_Volunteer_Shifts__c',
                                               Volunteer_Name__c: sf_id,
@@ -83,4 +82,3 @@ private
 def sfcreate_params
   params.require(:volunteer).permit(:name_first, :name_last, :email)
 end
-

@@ -1,5 +1,5 @@
 <h3>Walk-in or New Volunteer</h3>
-<form data-abide>
+<!--<form data-abide>-->
   <div class="row">
     <div class="small-11 medium-centered columns">
       <% @volunteer = Volunteer.new %>
@@ -10,7 +10,7 @@
           </div>
           <div class="small-6 columns">
             <%= f.text_field :name_last, placeholder: 'Last Name', required: "" %>
-            <%= content_tag(:small, "Last Name is required", class: "error") %>
+            <!--<%= content_tag(:small, "Last Name is required", class: "error") %>-->
           </div>
         </div>
         <div class="row">
@@ -21,10 +21,8 @@
 
             <% type_options = ['','Garden Morning', 'Garden Afternoon', 'DIG', 'Guest Chef', 'Admin/Office'] %>
             <%= select_tag(:shift_type, options_for_select(type_options)) %>
+            <!--<%= content_tag(:small, "Shift Type is required", class: "error") %>            -->
           </div>
-
-            <%= text_field_tag :shift_type, "", placeholder: 'Shift', required: "" %>
-            <%= content_tag(:small, "Shift Type is required", class: "error") %>            </div>
           <div class="small-3 columns">
             <%= f.submit "Submit", :class => 'button radius small expand' %>
           </div>
@@ -32,4 +30,4 @@
       <% end %>
     </div>
   </div>
-<form data-abide>
+<!--<form data-abide>-->

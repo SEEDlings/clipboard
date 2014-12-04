@@ -7,12 +7,9 @@ class VolunteersController < ApplicationController
 
   def sfcreate
     #needs to look at form to obtain params
-    @firstname = sfcreate_params[:name_first]
-    @lastname = sfcreate_params[:name_last]
-    @email = sfcreate_params[:email]
     @existing_records = []
     @matching_names = []
-    @existing = @client.query("select Id from contact where email = '#{@email}'")
+    @existing = @client.query("select Id from contact where email = '#{sfcreate_params[:email]}'")
     @existing.current_page.each do |o|
       @existing_records << o.Id
     end

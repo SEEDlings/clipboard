@@ -101,7 +101,7 @@ class Syncer < ActiveRecord::Base
           date = Chronic.parse(sf_s[:afternoon_shift]).to_date
         end
         new_shift.update!(date: date)
-        puts "Created"
+        puts "Created Shift #{sf_s[:sf_volunteer_shift_id]}"
       end
     end
 

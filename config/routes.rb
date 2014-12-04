@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   post 'shifts/unconfirm'
   post 'shifts/cancellation'
   post 'shifts/no_show'
-  get 'shifts/sync'
+  get 'shifts/sync_and_list'
+  get 'shifts/list'
+
 
   root 'home#index'
   # get 'home/sync', to: 'home#sync'

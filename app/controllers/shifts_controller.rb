@@ -1,11 +1,14 @@
 class ShiftsController < ApplicationController
   before_action :client
 
-  def sync
+  def sync_and_list
     Syncer.find_by(id: 1).syncup(@client)
-    render partial: "index"
+    list
     Syncer.find_by(id: 1).update_no_shows(@client)
+  end
 
+  def list
+    render partial: "index"
   end
 
   def confirm

@@ -18,8 +18,7 @@
             <%= f.text_field :email, placeholder: 'Email' %>
           </div>
           <div class="small-3 columns">
-            <%= text_field_tag :shift_type, "", placeholder: 'Shift', required: "" %>
-            <%= content_tag(:small, "Shift Type is required", class: "error") %>            </div>
+            <%= text_field_tag :shift_type, "", placeholder: 'Shift' %>
           <div class="small-3 columns">
             <%= f.submit "Submit", :class => 'button radius small expand' %>
           </div>
@@ -27,4 +26,4 @@
       <% end %>
     </div>
   </div>
-<form data-abide>
+</form>

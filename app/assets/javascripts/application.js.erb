@@ -26,6 +26,10 @@ $(document).ready(function() {
       success: function (html) {
         $("#shift_index").html(html);
       }
+      failure: function (html) {
+        $("#shift_index").html(html);
+        alert: "An error occurred with the Salesforce Database"
+      }
     });
   }
 });

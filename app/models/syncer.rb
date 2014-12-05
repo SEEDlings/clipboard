@@ -14,10 +14,10 @@ class Syncer < ActiveRecord::Base
         WHERE SystemModstamp > #{self.last_sync}")
 
     updated_contacts.current_page.each do |o|
-      volunteers << {sf_contact_id: o.Id,
-                     name_first: o.FirstName,
-                     name_last: o.LastName,
-                     email: o.Email}
+      volunteers << { sf_contact_id: o.Id,
+                      name_first: o.FirstName,
+                      name_last: o.LastName,
+                      email: o.Email }
     end
     updated_shifts.current_page.each do |o|
       shifts << { sf_volunteer_shift_id: o.Id,
@@ -52,7 +52,6 @@ class Syncer < ActiveRecord::Base
         puts "Created Volunteer #{sf_v[:sf_contact_id]}"
       end
     end
-
     shifts.each do |sf_s|
       # If there is a Shift with the same sf_volunteer_shift_id
       if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_s[:sf_volunteer_shift_id] }
@@ -73,10 +72,9 @@ class Syncer < ActiveRecord::Base
           date = Chronic.parse(sf_s[:morning_shift]).to_date
         elsif sf_s[:afternoon_shift] != nil
           date = Chronic.parse(sf_s[:afternoon_shift]).to_date
-          end
+        end
         updated_shift.update!(date: date)
         puts "Updated Shift #{sf_s[:sf_volunteer_shift_id]}"
-
       else
         puts "No existing Shift found, creating Shift #{sf_s[:sf_volunteer_shift_id]}"
         new_shift = Shift.create!(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id],
@@ -88,8 +86,7 @@ class Syncer < ActiveRecord::Base
                                   year: sf_s[:year],
                                   date: "pending parse",
                                   hours: sf_s[:hours])
-
-        # add date from a shift type field in this priority...
+        # add date depending on shift type, in this priority...
         if sf_s[:guest_chef_shift] != nil
           date = Chronic.parse(sf_s[:guest_chef_shift]).to_date
         elsif sf_s[:dig_shift] != nil
@@ -104,8 +101,22 @@ class Syncer < ActiveRecord::Base
         new_shift.update!(date: date)
         puts "Created Shift #{sf_s[:sf_volunteer_shift_id]}"
       end
+      # add or update emergency info and notes for Shift's Volunteer
+      volunteer = Volunteer.find_by(sf_contact_id: sf_s[:sf_contact_id])
+      if sf_s[:emergency_contact_name] != nil
+        volunteer.update!(emergency_contact_name: sf_s[:emergency_contact_name])
+        puts "Updated Emergency Contact Name for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
+      end
+      if sf_s[:emergency_contact_phone] != nil && sf_s[:emergency_contact_phone].length > 4
+        volunteer.update!(emergency_contact_phone: sf_s[:emergency_contact_phone])
+        puts "Updated Emergency Contact Phone for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
+      end
+      if sf_s[:notes] != nil && sf_s[:notes].length > 3
+        volunteer.update!(notes: sf_s[:notes])
+        puts "Updated Notes for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
+      end
     end
-
+    # timestamp Syncer with current time
     self.update!(last_sync: DateTime.now.utc.iso8601)
   end
 
@@ -115,8 +126,8 @@ class Syncer < ActiveRecord::Base
       if su.date.to_date < Date.today
         puts "Expired Sign Up found for #{su.sf_volunteer_shift_id}, changing to No Show"
         if client.update!('SEEDS_Volunteer_Shifts__c',
-                           Id: "#{su.sf_volunteer_shift_id}",
-                           Shift_Status__c: "No Show")
+                          Id: "#{su.sf_volunteer_shift_id}",
+                          Shift_Status__c: "No Show")
           Shift.find_by(sf_volunteer_shift_id: su.sf_volunteer_shift_id).update!(status: 'No Show')
           puts "Updated Shift #{su.sf_volunteer_shift_id} status to No Show"
         end

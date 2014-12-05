@@ -55,6 +55,32 @@
           </div>
         </div>
       </div>
+      <div class="volunteerinfo">
+        <% if s.volunteer.emergency_contact_name != nil || s.volunteer.emergency_contact_phone != nil %>
+          <div class="row">
+            <div class="small-12 columns">
+              <p>Emergency Contact:
+                <% if s.volunteer.emergency_contact_name != nil %>
+                  <%= s.volunteer.emergency_contact_name %>
+                <% end %>
+                <% if s.volunteer.emergency_contact_name != nil && s.volunteer.emergency_contact_phone != nil %>
+                  at
+                <% end %>
+                <% if s.volunteer.emergency_contact_phone != nil %>
+                  <%= s.volunteer.emergency_contact_phone %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+        <% if s.volunteer.notes != nil %>
+          <div class="row">
+            <div class="small-12 columns">
+              <p>Notes: <%= s.volunteer.notes %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   <% end %>
 <% else %>

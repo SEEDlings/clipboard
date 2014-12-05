@@ -5,10 +5,10 @@
     <%= form_for @volunteer, :html => {"data-abide" => ''}, url: volunteers_sfcreate_path do |f| %>
     <div class="row">
       <div class="medium-6 columns">
-        <%= f.text_field :name_first, placeholder: 'First Name', android:capitalize="words" %>
+        <%= f.text_field :name_first, placeholder: 'First Name' %>
       </div>
       <div class="medium-6 columns">
-        <%= f.text_field :name_last, placeholder: 'Last Name', android:capitalize="words", required: "" %>
+        <%= f.text_field :name_last, placeholder: 'Last Name', required: "" %>
         <%= content_tag(:small, "Last Name is required", class: "error") %>
       </div>
     </div>

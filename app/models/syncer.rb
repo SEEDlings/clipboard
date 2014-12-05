@@ -9,7 +9,7 @@ class Syncer < ActiveRecord::Base
         FROM Contact
         WHERE SystemModstamp > #{self.last_sync}")
     updated_shifts = client.query(
-        "SELECT Id, Name, Volunteer_Name__c, ShiftType__c, Date_Text__c, Year__c, Hours__c, Shift_Status__c, Morning_Shift_Date__c, Afternoon_Shift_Date__c, Guest_Chef_Shift__c, DIG_Shift__c, Special_Needs_Allergies__c
+        "SELECT Id, Name, Volunteer_Name__c, ShiftType__c, Date_Text__c, Year__c, Hours__c, Shift_Status__c, Morning_Shift_Date__c, Afternoon_Shift_Date__c, Guest_Chef_Shift__c, DIG_Shift__c, Emerg_Contact_Name__c, Emerg_Contact_Phone__c, Special_Needs_Allergies__c
         FROM SEEDS_Volunteer_Shifts__c
         WHERE SystemModstamp > #{self.last_sync}")
 
@@ -32,6 +32,8 @@ class Syncer < ActiveRecord::Base
                   afternoon_shift: o.Afternoon_Shift_Date__c,
                   guest_chef_shift: o.Guest_Chef_Shift__c,
                   dig_shift: o.DIG_Shift__c,
+                  emergency_contact_name: o.Emerg_Contact_Name__c,
+                  emergency_contact_phone: o.Emerg_Contact_Phone__c,
                   notes: o.Special_Needs_Allergies__c }
     end
 
@@ -53,7 +55,6 @@ class Syncer < ActiveRecord::Base
 
     shifts.each do |sf_s|
       # If there is a Shift with the same sf_volunteer_shift_id
-      # update the status
       if Shift.any? { |e_s| e_s.sf_volunteer_shift_id == sf_s[:sf_volunteer_shift_id] }
         puts "Existing Shift(s) found, updating from Volunteer Shift #{sf_s[:sf_volunteer_shift_id]}"
         updated_shift = Shift.where(sf_volunteer_shift_id: sf_s[:sf_volunteer_shift_id])[0]

@@ -1,2 +1,9 @@
-Clipboard 
-Trying out Travis again
+Clipboard is a simple, intuitive volunteer check-in app created specifically for the needs of SEEDS NC, a Durham non-profit providing the community with a safe, empowering environment in which to learn and practice sustainable agriculture, gardening, and environmental stewardship.
+
+It is the final project of Pete Byrne, Rebecca Conley, and David Perry for The Iron Yard Academy, 12-week intensive code school focusing on Ruby on Rails.
+
+Developing Clipboard was a great chance to work with a client, get our hands dirty with real-world data, and optimize a solution for specific and evolving requirements. We integrate with SEEDS' Salesforce Database via API, accommodate idiosynchrocies in data structure, handle the existing complexities automatically, and serve only what is necessary for a smooth, swift user experience.
+
+Clipboard saves time and money by both making the check-in process as straightforward as possible, and aiding in capturing volunteer time data, which is vital for gaining grants needed to continue growing.
+
+Learn more about SEEDS at seedsnc.org

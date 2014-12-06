@@ -18,6 +18,7 @@
 
 $(function(){ $(document).foundation(); });
 
+
 $(document).ready(function() {
   if($("#shift_index").length > 0) {
     $.ajax({
@@ -38,4 +39,16 @@ $(document).ready(function() {
       }
     });
   }
+});
+
+$(document).ajaxComplete(function() {
+  $(".volunteerinfo").hide();
+  $.each(
+    $(".volunteername"),
+    function( index, value ) {
+      $(value).click( function() {
+        $(".volunteerinfo").eq(index).toggle()
+      });
+    }
+  );
 });

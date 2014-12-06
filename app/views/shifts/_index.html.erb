@@ -2,7 +2,9 @@
 <% @todays_shifts = [] %>
 <% @all_shifts.each do |s| %>
   <% if s.date == Date.today.to_s %>
-    <% @todays_shifts << s %>
+    <% unless s.status == "Canceled" || s.status == "No Show" %>
+      <% @todays_shifts << s %>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -12,49 +14,76 @@
 
 <% unless @todays_shifts_sorted.empty? %>
   <% @todays_shifts_sorted.each do |s| %>
-    <% if s.status == "Sign Up" %>
+
+    <div class="shift-row">
       <div class="row">
         <div class="small-4 medium-2 columns">
-          <%= button_to('Here?',
-                        options = { :action => 'confirm',
-                                    :controller => 'shifts',
-                                    :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                        :class => 'button round small expand success')%>
+          <% if s.status == "Confirmed" %>
+            <%= button_to('Here!',
+                          options = { :action => 'unconfirm',
+                                      :controller => 'shifts',
+                                      :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                          :class => 'button round small expand secondary')%>
+          <% else %>
+            <%= button_to('Here?',
+                          options = { :action => 'confirm',
+                                      :controller => 'shifts',
+                                      :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
+                          :class => 'button round small expand success')%>
+          <% end %>
         </div>
         <div class="small-8 medium-9 columns end">
-          <div class="row">
-            <div class="medium-6 large-4 columns">
-              <p class="checklist signup"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></p>
-            </div>
-            <div class="medium-6 columns end">
-              <p class="checklist signup"><%= s.shift_type %></p>
+          <div class="volunteername id<%= s.volunteer.id %>">
+            <div class="row">
+              <div class="medium-6 large-4 columns">
+                <% if s.status == "Confirmed" %>
+                  <p class="checklist confirmed">
+                <% else %>
+                  <p class="checklist signup">
+                <% end %>
+                <%= s.volunteer.name_first %> <%= s.volunteer.name_last %>
+                </p>
+              </div>
+              <div class="medium-6 columns end">
+                <% if s.status == "Confirmed" %>
+                  <p class="checklist confirmed">
+                <% else %>
+                  <p class="checklist signup">
+                <% end %>
+                <%= s.shift_type %>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
-    <% end %>
-    <% if s.status == "Confirmed" %>
-      <div class="row">
-        <div class="small-4 medium-2 columns">
-          <%= button_to('Here!',
-                        options = { :action => 'unconfirm',
-                                    :controller => 'shifts',
-                                    :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                        :class => 'button round small expand secondary')%>
-        </div>
-        <div class="small-8 medium-9 columns end">
+      <div class="volunteerinfo id<%= s.volunteer.id %>">
+        <% if s.volunteer.emergency_contact_name != nil || s.volunteer.emergency_contact_phone != nil %>
           <div class="row">
-        <div class="medium-6 large-4 columns">
-          <p class="checklist confirmed"><%= s.volunteer.name_first %> <%= s.volunteer.name_last %></p>
-        </div>
-        <div class="medium-6 columns end">
-          <p class="checklist confirmed"><%= s.shift_type %></p>
-        </div>
+            <div class="small-12 columns">
+              <p>Emergency Contact:
+                <% if s.volunteer.emergency_contact_name != nil %>
+                  <%= s.volunteer.emergency_contact_name %>
+                <% end %>
+                <% if s.volunteer.emergency_contact_name != nil && s.volunteer.emergency_contact_phone != nil %>
+                  at
+                <% end %>
+                <% if s.volunteer.emergency_contact_phone != nil %>
+                  <%= s.volunteer.emergency_contact_phone %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+        <% if s.volunteer.notes != nil %>
+          <div class="row">
+            <div class="small-12 columns">
+              <p>Notes: <%= s.volunteer.notes %></p>
+            </div>
+          </div>
+        <% end %>
       </div>
-        </div>
-      </div>
-    <% end %>
+    </div>
   <% end %>
 <% else %>
   <p>No volunteers signed up for today</p>

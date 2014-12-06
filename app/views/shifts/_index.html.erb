@@ -33,29 +33,31 @@
           <% end %>
         </div>
         <div class="small-8 medium-9 columns end">
-          <div class="row">
-            <div class="medium-6 large-4 columns">
-              <% if s.status == "Confirmed" %>
-                <p class="checklist confirmed">
-              <% else %>
-                <p class="checklist signup">
-              <% end %>
-              <%= s.volunteer.name_first %> <%= s.volunteer.name_last %>
-              </p>
-            </div>
-            <div class="medium-6 columns end">
-              <% if s.status == "Confirmed" %>
-                <p class="checklist confirmed">
-              <% else %>
-                <p class="checklist signup">
-              <% end %>
-              <%= s.shift_type %>
-              </p>
+          <div class="volunteername id<%= s.volunteer.id %>">
+            <div class="row">
+              <div class="medium-6 large-4 columns">
+                <% if s.status == "Confirmed" %>
+                  <p class="checklist confirmed">
+                <% else %>
+                  <p class="checklist signup">
+                <% end %>
+                <%= s.volunteer.name_first %> <%= s.volunteer.name_last %>
+                </p>
+              </div>
+              <div class="medium-6 columns end">
+                <% if s.status == "Confirmed" %>
+                  <p class="checklist confirmed">
+                <% else %>
+                  <p class="checklist signup">
+                <% end %>
+                <%= s.shift_type %>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="volunteerinfo">
+      <div class="volunteerinfo id<%= s.volunteer.id %>">
         <% if s.volunteer.emergency_contact_name != nil || s.volunteer.emergency_contact_phone != nil %>
           <div class="row">
             <div class="small-12 columns">

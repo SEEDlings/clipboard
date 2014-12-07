@@ -47,7 +47,7 @@ $(document).ajaxComplete(function() {
     $(".volunteername"),
     function( index, value ) {
       $(value).click( function() {
-        $(".volunteerinfo").eq(index).toggle()
+        $(".volunteerinfo").eq(index).toggle( "fast")
       });
     }
   );

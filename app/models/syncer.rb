@@ -117,11 +117,11 @@ class Syncer < ActiveRecord::Base
         volunteer.update!(emergency_contact_name: sf_s[:emergency_contact_name])
         puts "Updated Emergency Contact Name for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
       end
-      if sf_s[:emergency_contact_phone] != nil && sf_s[:emergency_contact_phone].length > 4
+      if sf_s[:emergency_contact_phone] != nil
         volunteer.update!(emergency_contact_phone: sf_s[:emergency_contact_phone])
         puts "Updated Emergency Contact Phone for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
       end
-      if sf_s[:notes] != nil && sf_s[:notes].length > 3
+      if sf_s[:notes] != nil
         volunteer.update!(notes: sf_s[:notes])
         puts "Updated Notes for Volunteer #{sf_s[:volunteer]} / #{sf_s[:sf_contact_id]}"
       end

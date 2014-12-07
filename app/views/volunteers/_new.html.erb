@@ -18,8 +18,8 @@
         <%= content_tag(:small, "A valid email is required", class: "error") %>
       </div>
       <div class="medium-6 large-4 columns">
-        <% type_options = ['','Garden Morning', 'Garden Afternoon', 'DIG', 'Guest Chef', 'Admin/Office'] %>
-        <%= select_tag(:shift_type, options_for_select(type_options)) %>
+        <% type_options = ['Garden Morning', 'Garden Afternoon', 'DIG', 'Guest Chef', 'Admin/Office'] %>
+        <%= select_tag(:shift_type, options_for_select(type_options), :prompt => "Shift Type") %>
       </div>
       <div class="medium-6 large-2 columns">
         <%= f.submit "Submit", :class => 'button radius small expand success' %>

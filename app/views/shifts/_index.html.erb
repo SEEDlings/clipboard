@@ -23,13 +23,13 @@
                           options = { :action => 'unconfirm',
                                       :controller => 'shifts',
                                       :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                          :class => 'button round small expand secondary')%>
+                          :class => 'button round small expand secondary unconfirm')%>
           <% else %>
             <%= button_to('Here?',
                           options = { :action => 'confirm',
                                       :controller => 'shifts',
                                       :params => { :sf_volunteer_shift_id => s.sf_volunteer_shift_id}},
-                          :class => 'button round small expand success')%>
+                          :class => 'button round small expand success confirm')%>
           <% end %>
         </div>
         <div class="small-8 medium-9 columns end">
@@ -44,7 +44,7 @@
                 <%= s.volunteer.name_first %> <%= s.volunteer.name_last %>
                 </p>
               </div>
-              <div class="medium-6 columns end">
+              <div class="show-for-medium-up medium-6 columns end">
                 <% if s.status == "Confirmed" %>
                   <p class="checklist confirmed">
                 <% else %>

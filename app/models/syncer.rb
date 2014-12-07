@@ -8,18 +8,20 @@ class Syncer < ActiveRecord::Base
         "SELECT Id, FirstName, LastName, Email
         FROM Contact
         WHERE SystemModstamp > #{self.last_sync}")
+
     updated_shifts = client.query(
         "SELECT Id, Name, Volunteer_Name__c, ShiftType__c, Date_Text__c, Year__c, Hours__c, Shift_Status__c, Morning_Shift_Date__c, Afternoon_Shift_Date__c, Guest_Chef_Shift__c, DIG_Shift__c, Emerg_Contact_Name__c, Emerg_Contact_Phone__c, Special_Needs_Allergies__c
         FROM SEEDS_Volunteer_Shifts__c
         WHERE SystemModstamp > #{self.last_sync}")
 
-    updated_contacts.current_page.each do |o|
-      volunteers << { sf_contact_id: o.Id,
-                      name_first: o.FirstName,
-                      name_last: o.LastName,
-                      email: o.Email }
-    end
-    updated_shifts.current_page.each do |o|
+    # updated_contacts.each do |o|
+    #   volunteers << { sf_contact_id: o.Id,
+    #                   name_first: o.FirstName,
+    #                   name_last: o.LastName,
+    #                   email: o.Email }
+    # end
+
+    updated_shifts.each do |o|
       shifts << { sf_volunteer_shift_id: o.Id,
                   shift_name: o.Name,
                   sf_contact_id: o.Volunteer_Name__c,
@@ -63,17 +65,20 @@ class Syncer < ActiveRecord::Base
         updated_shift.update!(hours: sf_s[:hours])
         updated_shift.update!(date: "pending parse")
         if sf_s[:guest_chef_shift] != nil
-          date = Chronic.parse(sf_s[:guest_chef_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
         elsif sf_s[:dig_shift] != nil
-          date = Chronic.parse(sf_s[:dig_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:dig_shift])
         elsif sf_s[:date] != nil
-          date = Chronic.parse(sf_s[:date]).to_date
+          parsed_date = Chronic.parse(sf_s[:date])
         elsif sf_s[:morning_shift] != nil
-          date = Chronic.parse(sf_s[:morning_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:morning_shift])
         elsif sf_s[:afternoon_shift] != nil
-          date = Chronic.parse(sf_s[:afternoon_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:afternoon_shift])
         end
-        updated_shift.update!(date: date)
+        if parsed_date
+          date = parsed_date.to_date
+          updated_shift.update!(date: date)
+        end
         puts "Updated Shift #{sf_s[:sf_volunteer_shift_id]}"
       else
         puts "No existing Shift found, creating Shift #{sf_s[:sf_volunteer_shift_id]}"
@@ -88,17 +93,22 @@ class Syncer < ActiveRecord::Base
                                   hours: sf_s[:hours])
         # add date depending on shift type, in this priority...
         if sf_s[:guest_chef_shift] != nil
-          date = Chronic.parse(sf_s[:guest_chef_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
         elsif sf_s[:dig_shift] != nil
-          date = Chronic.parse(sf_s[:dig_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:dig_shift])
         elsif sf_s[:date] != nil
-          date = Chronic.parse(sf_s[:date]).to_date
+          parsed_date = Chronic.parse(sf_s[:date])
         elsif sf_s[:morning_shift] != nil
-          date = Chronic.parse(sf_s[:morning_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:morning_shift])
         elsif sf_s[:afternoon_shift] != nil
-          date = Chronic.parse(sf_s[:afternoon_shift]).to_date
+          parsed_date = Chronic.parse(sf_s[:afternoon_shift])
         end
-        new_shift.update!(date: date)
+        if parsed_date
+          date = parsed_date.to_date
+          new_shift.update!(date: date)
+        else
+          new_shift.update!(date: "no date")
+        end
         puts "Created Shift #{sf_s[:sf_volunteer_shift_id]}"
       end
       # add or update emergency info and notes for Shift's Volunteer
@@ -123,6 +133,7 @@ class Syncer < ActiveRecord::Base
   def update_no_shows(client)
     sign_ups = Shift.where(status: "Sign Up")
     sign_ups.each do |su|
+      return unless Chronic.parse(su.date) != nil
       if su.date.to_date < Date.today
         puts "Expired Sign Up found for #{su.sf_volunteer_shift_id}, changing to No Show"
         if client.update!('SEEDS_Volunteer_Shifts__c',

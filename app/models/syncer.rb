@@ -64,16 +64,30 @@ class Syncer < ActiveRecord::Base
         updated_shift.update!(year: sf_s[:year])
         updated_shift.update!(hours: sf_s[:hours])
         updated_shift.update!(date: "pending parse")
-        if sf_s[:shift_type] == "Guest Chef" && sf_s[:guest_chef_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
-        elsif sf_s[:shift_type] =="DIG"  && sf_s[:dig_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:dig_shift])
-        elsif sf_s[:shift_type] == "Admin/Office" && sf_s[:date] != nil
-          parsed_date = Chronic.parse(sf_s[:date])
-        elsif sf_s[:shift_type] == "Garden Morning" && sf_s[:morning_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:morning_shift])
-        elsif sf_s[:shift_type] == "Garden Afternoon" && sf_s[:afternoon_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+        if sf_s[:shift_type]
+          if sf_s[:shift_type] == "Guest Chef" && sf_s[:guest_chef_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
+          elsif sf_s[:shift_type] =="DIG"  && sf_s[:dig_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:dig_shift])
+          elsif sf_s[:shift_type] == "Admin/Office" && sf_s[:date] != nil
+            parsed_date = Chronic.parse(sf_s[:date])
+          elsif sf_s[:shift_type] == "Garden Morning" && sf_s[:morning_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:morning_shift])
+          elsif sf_s[:shift_type] == "Garden Afternoon" && sf_s[:afternoon_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+          end
+        else
+          if sf_s[:guest_chef_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
+          elsif sf_s[:dig_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:dig_shift])
+          elsif sf_s[:date] != nil
+            parsed_date = Chronic.parse(sf_s[:date])
+          elsif sf_s[:morning_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:morning_shift])
+          elsif sf_s[:afternoon_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+          end
         end
         if parsed_date
           date = parsed_date.to_date
@@ -92,16 +106,30 @@ class Syncer < ActiveRecord::Base
                                   date: "pending parse",
                                   hours: sf_s[:hours])
         # add date depending on shift type, in this priority...
-        if sf_s[:shift_type] == "Guest Chef" && sf_s[:guest_chef_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
-        elsif sf_s[:shift_type] == "DIG" && sf_s[:dig_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:dig_shift])
-        elsif sf_s[:shift_type] == "Admin/Office" && sf_s[:date] != nil
-          parsed_date = Chronic.parse(sf_s[:date])
-        elsif sf_s[:shift_type] == "Garden Morning" && sf_s[:morning_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:morning_shift])
-        elsif sf_s[:shift_type] == "Garden Afternoon" && sf_s[:afternoon_shift] != nil
-          parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+        if sf_s[:shift_type]
+          if sf_s[:shift_type] == "Guest Chef" && sf_s[:guest_chef_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
+          elsif sf_s[:shift_type] == "DIG" && sf_s[:dig_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:dig_shift])
+          elsif sf_s[:shift_type] == "Admin/Office" && sf_s[:date] != nil
+            parsed_date = Chronic.parse(sf_s[:date])
+          elsif sf_s[:shift_type] == "Garden Morning" && sf_s[:morning_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:morning_shift])
+          elsif sf_s[:shift_type] == "Garden Afternoon" && sf_s[:afternoon_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+          end
+        else
+          if sf_s[:guest_chef_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:guest_chef_shift])
+          elsif sf_s[:dig_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:dig_shift])
+          elsif sf_s[:date] != nil
+            parsed_date = Chronic.parse(sf_s[:date])
+          elsif sf_s[:morning_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:morning_shift])
+          elsif sf_s[:afternoon_shift] != nil
+            parsed_date = Chronic.parse(sf_s[:afternoon_shift])
+          end
         end
         if parsed_date
           date = parsed_date.to_date

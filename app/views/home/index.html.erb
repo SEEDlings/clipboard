@@ -1,8 +1,12 @@
+
 <% if logged_in? %>
   <div class="row">
-    <div class="small-12 medium-centered columns">
-      <h1 class="centered">SEEDS Clipboard</h1>
-        <p class="centered">Logged into Salesforce as <%= current_user.name %>&nbsp&nbsp
+    <div class="small-12 medium-centered columns logohead">
+      <div class="centered">
+      <%= image_tag("seedslogo.jpg", class: "logoimg") %>
+      <h1 class="title">Clipboard</h1>
+        </div>
+        <p class="centered logohead">Logged into Salesforce as <%= current_user.name %>&nbsp&nbsp
           <%= link_to '(Log out)', sessions_destroy_path, :method => :delete, :class => "logoutlink" %></p>
       <div class="row">
         <div class="small-11 medium-centered columns">
@@ -28,14 +32,15 @@
     <div class="small-10 small-centered columns">
       <br>
       <br>
-      <h1 class="centered">SEEDS Clipboard</h1>
+      <div class="centered">
+      <%= image_tag("seedslogo.jpg", class: "logoimg") %>
+      <h1 class="title">Clipboard</h1>
+      </div>
       <br>
       <br>
-      <!--<div class="small-4 small-centered large-centered columns">-->
         <div class="centered">
-          <a href="/auth/salesforcesandbox" class="button radius"><%= 'Log in via Salesforce' %></a>
+          <a href="/auth/salesforcesandbox" class="button radius success"><%= 'Log in via Salesforce' %></a>
         </div>
-      <!--</div>-->
     </div>
   </div>
 <% end %>

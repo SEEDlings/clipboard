@@ -3,11 +3,35 @@
   <div class="row">
     <div class="small-12 medium-centered columns logohead">
       <div class="centered">
-      <%= image_tag("seedslogo.jpg", class: "logoimg") %>
-      <h1 class="title">Clipboard</h1>
+        <%= image_tag("seedslogo.jpg", class: "logoimg") %>
+        <h1 class="title">Clipboard</h1>
+      </div>
+      <p class="centered logohead">Logged into Salesforce as <%= current_user.name %>&nbsp&nbsp
+        <%= link_to '(Log out)', sessions_destroy_path, :method => :delete, :class => "logoutlink" %></p>
+      <div class="row">
+        <div class="small-12 medium-8 large-6 medium-centered columns">
+          <% if flash[:error] %>
+            <div data-alert class="alert-box">
+              <%= flash[:error] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
+
+          <%if flash[:notice] %>
+            <div data-alert class="alert-box radius success">
+              <%= flash[:notice] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
+
+          <%if flash[:alert] %>
+            <div data-alert class="alert-box">
+              <%= flash[:alert] %>
+              <a href="#" class="close">&times;</a>
+            </div>
+          <% end %>
         </div>
-        <p class="centered logohead">Logged into Salesforce as <%= current_user.name %>&nbsp&nbsp
-          <%= link_to '(Log out)', sessions_destroy_path, :method => :delete, :class => "logoutlink" %></p>
+      </div>
       <div class="row">
         <div class="small-11 medium-centered columns">
           <h3>Today's Volunteers</h3>
@@ -33,14 +57,14 @@
       <br>
       <br>
       <div class="centered">
-      <%= image_tag("seedslogo.jpg", class: "logoimg") %>
-      <h1 class="title">Clipboard</h1>
+        <%= image_tag("seedslogo.jpg", class: "logoimg") %>
+        <h1 class="title">Clipboard</h1>
       </div>
       <br>
       <br>
-        <div class="centered">
-          <a href="/auth/salesforcesandbox" class="button radius success"><%= 'Log in via Salesforce' %></a>
-        </div>
+      <div class="centered">
+        <a href="/auth/salesforcesandbox" class="button radius success"><%= 'Log in via Salesforce' %></a>
+      </div>
     </div>
   </div>
 <% end %>

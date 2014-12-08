@@ -20,11 +20,12 @@ class VolunteersController < ApplicationController
         volunteer.name_first = sfcreate_params[:name_first]
         volunteer.name_last = sfcreate_params[:name_last]
         volunteer.sf_contact_id = sf_id
+        flash[:notice] = "#{sfcreate_params[:name_first]} added as a new contact. Shift created and confirmed in Salesforce"
       end
-
     else
       sf_id = @existing_records[0]
       puts 'We already have someone in the database with that email'
+      flash[:notice] = "Created and confirmed shift for #{sfcreate_params[:name_first]} in Salesforce"
     end
 
     if params[:shift_type] == 'Garden Morning'
@@ -69,6 +70,7 @@ class VolunteersController < ApplicationController
       shift.year = Time.now.year
       shift.sf_volunteer_shift_id = sf_volunteer_shift_id
       shift.volunteer = Volunteer.find_by(sf_contact_id: sf_id)
+
     end
 
     redirect_to root_path

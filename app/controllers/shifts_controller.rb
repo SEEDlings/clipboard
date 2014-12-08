@@ -16,7 +16,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Confirmed")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'Confirmed')
     end
-    flash[:notice] = "#{Shift.find_by(sf_volunteer_shift_id: shift).volunteer.name_first}'s shift confirmed in Salesforce"
+    flash[:notice] = "#{Shift.find_by(sf_volunteer_shift_id: shift).volunteer.name_first}'s shift confirmed in Salesforce."
     redirect_to root_path
   end
 
@@ -25,7 +25,7 @@ class ShiftsController < ApplicationController
     if @client.update!('SEEDS_Volunteer_Shifts__c', Id: "#{shift}", Shift_Status__c: "Sign Up")
       Shift.find_by(sf_volunteer_shift_id: shift).update!(status: 'Sign Up')
     end
-    flash[:notice] = "#{Shift.find_by(sf_volunteer_shift_id: shift).volunteer.name_first}'s shift was un-confirmed"
+    flash[:notice] = "#{Shift.find_by(sf_volunteer_shift_id: shift).volunteer.name_first}'s shift was un-confirmed."
     redirect_to root_path
   end
 

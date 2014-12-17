@@ -63,7 +63,7 @@
       <br>
       <br>
       <div class="centered">
-        <a href="/auth/salesforcesandbox" class="button radius success"><%= 'Log in via Salesforce' %></a>
+        <a href="/auth/<%= ENV['OAUTH_PROVIDER'] %>" class="button radius success"><%= 'Log in via Salesforce' %></a>
       </div>
     </div>
   </div>

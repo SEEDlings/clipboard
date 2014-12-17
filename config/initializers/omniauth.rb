@@ -1,3 +1,4 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :salesforcesandbox, ENV['SALESFORCE_SANDBOX_KEY'], ENV['SALESFORCE_SANDBOX_SECRET']
+  provider :salesforcesandbox, ENV['SALESFORCE_KEY'], ENV['SALESFORCE_SECRET']
+  provider :salesforce, ENV['SALESFORCE_KEY'], ENV['SALESFORCE_SECRET']
 end

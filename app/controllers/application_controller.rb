@@ -24,13 +24,13 @@ class ApplicationController < ActionController::Base
 
   def client
     return unless logged_in?
-    salesforce_auth = current_user.authorizations.find_by(provider: 'salesforcesandbox')
+    salesforce_auth = current_user.authorizations.find_by(provider: ENV['OAUTH_PROVIDER'])
     return unless salesforce_auth
-    @client = Restforce.new :host => ENV['SALESFORCE_SANDBOX_HOST'],
+    @client = Restforce.new :host => ENV['SALESFORCE_HOST'],
                             :oauth_token   => salesforce_auth.oauth_token,
                             :refresh_token => salesforce_auth.refresh_token,
-                            :instance_url  => ENV['SALESFORCE_SANDBOX_URL'],
-                            :client_id     => ENV['SALESFORCE_SANDBOX_KEY'],
-                            :client_secret => ENV['SALESFORCE_SANDBOX_SECRET']
+                            :instance_url  => ENV['SALESFORCE_URL'],
+                            :client_id     => ENV['SALESFORCE_KEY'],
+                            :client_secret => ENV['SALESFORCE_SECRET']
   end
 end

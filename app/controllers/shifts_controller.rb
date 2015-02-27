@@ -2,9 +2,9 @@ class ShiftsController < ApplicationController
   before_action :client
 
   def sync_and_list
-    Syncer.find_by(id: 1).syncup(@client)
+    Syncer.find_by(id: 1).async.syncup(@client)
     list
-    Syncer.find_by(id: 1).update_no_shows(@client)
+    Syncer.find_by(id: 1).async.update_no_shows(@client)
   end
 
   def list

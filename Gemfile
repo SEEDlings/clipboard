@@ -45,8 +45,6 @@ group :development, :test do
   gem 'better_errors'
   gem "binding_of_caller"
   gem "quiet_assets"
-  gem 'pry-rails'
-  gem "pry-byebug"
   gem 'shoulda'
   gem 'did_you_mean', '~> 0.9.4'
   gem "rubocop", require: false
@@ -76,3 +74,6 @@ gem 'foundation-rails'
 gem 'validates_email_format_of'
 gem 'judge'
 gem 'jquery-ui-rails'
+gem 'pry-rails'
+gem "pry-byebug"
+gem 'sucker_punch'

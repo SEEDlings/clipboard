@@ -1,6 +1,9 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
-timeout 15
+timeout 300
 preload_app true
+
+port = (ENV["PORT"] || 3000).to_i
+listen port, :tcp_nopush => false
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
@@ -15,6 +18,9 @@ end
 after_fork do |server, worker|
   Signal.trap 'TERM' do
     puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
+  end
+  SuckerPunch.config do
+    queue name: :log_queue, worker: LogWorker, workers: 1
   end
 
   defined?(ActiveRecord::Base) and

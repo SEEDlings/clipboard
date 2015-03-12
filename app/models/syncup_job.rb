@@ -4,11 +4,10 @@ class SyncupJob < ActiveRecord::Base
   def syncup(client)
 
     ActiveRecord::Base.connection_pool.with_connection do
+      Syncer.find_by(id: 1).update!(state: "syncing")
       volunteers = []
       shifts = []
-
-      binding.pry
-
+      
       updated_contacts = client.query(
           "SELECT Id, FirstName, LastName, Email
           FROM Contact
@@ -160,7 +159,7 @@ class SyncupJob < ActiveRecord::Base
       end
 
       # timestamp Syncer with current time
-      Syncer.find_by(id: 1).update!(last_sync: DateTime.now.utc.iso8601)
+      Syncer.find_by(id: 1).update!(last_sync: DateTime.now.utc.iso8601, state: "complete")
     end
 
   end

@@ -7,7 +7,7 @@ class SyncupJob < ActiveRecord::Base
       Syncer.find_by(id: 1).update!(state: "syncing")
       volunteers = []
       shifts = []
-      
+
       updated_contacts = client.query(
           "SELECT Id, FirstName, LastName, Email
           FROM Contact

@@ -19,41 +19,50 @@
 
 $(function(){ $(document).foundation(); });
 
+function doPoll() {
+  $.get('/syncers', function(data) {
+    if (data.state == "complete") {
+      $.ajax({
+        url: "/shifts/sync_and_list",
+        type: "GET",
+        success: function (html) {
+          $("#shift_index").html(html);
+        },
+        error: function () {
+          $.ajax({
+            url: "/shifts/list",
+            type: "GET",
+            success: function (html) {
+              $("#shift_index").html(html);
+            }
+          });
+          alert("An error has occurred with Salesforce.");
+        }
+      });
+    } else {
+      setTimeout(function(){ doPoll(); }, 500);
+    }
+  });
+}
 
 $(document).ready(function() {
   if($("#shift_index").length > 0) {
-    $.ajax({
-      url: "/shifts/sync_and_list",
-      type: "GET",
-      success: function (html) {
-        $("#shift_index").html(html);
-      },
-      error: function () {
-        $.ajax({
-          url: "/shifts/list",
-          type: "GET",
-          success: function (html) {
-            $("#shift_index").html(html);
-          }
-        });
-        alert("An error has occurred with Salesforce.");
-      }
-    });
+    doPoll();
   }
 });
 
 $(document).ajaxComplete(function() {
   $(".volunteerinfo").hide();
   $.each(
-    $(".volunteername"),
-    function( index, value ) {
-      $(value).click( function() {
-        $(".volunteerinfo").eq(index).toggle( "fast")
-      });
-    }
+      $(".volunteername"),
+      function( index, value ) {
+        $(value).click( function() {
+          $(".volunteerinfo").eq(index).toggle( "fast")
+        });
+      }
   );
 });
 
 $('#new_volunteer').on('valid', function(){
-    $('input[type=submit]').attr('disabled', true);
+  $('input[type=submit]').attr('disabled', true);
 });

@@ -2,9 +2,9 @@ class ShiftsController < ApplicationController
   before_action :client
 
   def sync_and_list
-    SyncupJob.new.async.syncup(@client)
+    SyncupJob.new.syncup(@client)
     list
-    SyncupJob.new.async.update_no_shows(@client)
+    SyncupJob.new.update_no_shows(@client)
   end
 
   def list

@@ -7,6 +7,8 @@ class SyncupJob < ActiveRecord::Base
       volunteers = []
       shifts = []
 
+      binding.pry
+
       updated_contacts = client.query(
           "SELECT Id, FirstName, LastName, Email
           FROM Contact
@@ -41,7 +43,6 @@ class SyncupJob < ActiveRecord::Base
                     emergency_contact_phone: o.Emerg_Contact_Phone__c,
                     notes: o.Special_Needs_Allergies__c }
       end
-
       volunteers.each do |sf_v|
         if Volunteer.any? { |e_v| e_v.sf_contact_id == sf_v[:sf_contact_id] }
           puts "Existing Volunteer found, updating #{sf_v[:sf_contact_id]} #{sf_v[:name_first]} #{sf_v[:name_last]}"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227205134) do
+ActiveRecord::Schema.define(version: 20150312165205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20150227205134) do
     t.string   "last_full_sync", default: "1000-01-01T00:00:00Z"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   create_table "syncup_jobs", force: true do |t|

@@ -4,7 +4,6 @@ class SyncupJob < ActiveRecord::Base
   def syncup(client)
 
     ActiveRecord::Base.connection_pool.with_connection do
-      Syncer.find_by(id: 1).update!(state: "syncing")
 
       volunteers = []
       shifts = []
@@ -12,12 +11,12 @@ class SyncupJob < ActiveRecord::Base
       updated_contacts = client.query(
           "SELECT Id, FirstName, LastName, Email
           FROM Contact
-          WHERE SystemModstamp > #{Syncer.find_by(id: 1).last_sync}")
+          WHERE SystemModstamp > #{Time.at((Syncer.find_by(id: 1).last_sync.to_i)/1000).utc.iso8601}")
 
       updated_shifts = client.query(
           "SELECT Id, Name, Volunteer_Name__c, ShiftType__c, Date_Text__c, Year__c, Hours__c, Shift_Status__c, Morning_Shift_Date__c, Afternoon_Shift_Date__c, Guest_Chef_Shift__c, DIG_Shift__c, Emerg_Contact_Name__c, Emerg_Contact_Phone__c, Special_Needs_Allergies__c
           FROM SEEDS_Volunteer_Shifts__c
-          WHERE SystemModstamp > #{Syncer.find_by(id: 1).last_sync}")
+          WHERE SystemModstamp > #{Time.at((Syncer.find_by(id: 1).last_sync.to_i)/1000).utc.iso8601}")
 
       updated_contacts.each do |o|
         volunteers << { sf_contact_id: o.Id,
@@ -160,7 +159,7 @@ class SyncupJob < ActiveRecord::Base
       end
 
       # timestamp Syncer with current time
-      Syncer.find_by(id: 1).update!(last_sync: DateTime.now.utc.iso8601, state: "complete")
+      Syncer.find_by(id: 1).update!(last_sync: DateTime.now.strftime('%Q'))
     end
 
   end

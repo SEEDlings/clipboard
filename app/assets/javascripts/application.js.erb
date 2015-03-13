@@ -19,22 +19,21 @@
 
 $(function(){ $(document).foundation(); });
 
-//var startSyncTime = nil;
-
 $(document).ready(function() {
   if($("#shift_index").length > 0) {
     $.ajax({
       method: "POST",
       url: "/shifts/start_sync"
     });
-    window.startSyncTime = moment(Date.now());
+    window.startSyncTime = Date.now();
     doPoll();
   }
 });
 
 function doPoll() {
   $.get('/syncers', function(data) {
-    if ((moment(data.last_sync)) >= startSyncTime) {
+    console.log("startSyncTime = " + startSyncTime + " last_sync = " + data.last_sync);
+    if ((data.last_sync) >= startSyncTime) {
       $.ajax({
         url: "/shifts/list",
         type: "GET",

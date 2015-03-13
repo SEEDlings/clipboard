@@ -1,14 +1,16 @@
 class ShiftsController < ApplicationController
   before_action :client
 
-  def sync_and_list
-    SyncupJob.new.syncup(@client)
-    list
-    SyncupJob.new.update_no_shows(@client)
+  def start_sync
+    puts "calling for sync"
+    SyncupJob.new.async.syncup(@client)
+    SyncupJob.new.async.update_no_shows(@client)
+    render nothing: true
   end
 
   def list
     render partial: "index"
+    puts "rendering list"
   end
 
   def confirm

@@ -19,11 +19,24 @@
 
 $(function(){ $(document).foundation(); });
 
+//var startSyncTime = nil;
+
+$(document).ready(function() {
+  if($("#shift_index").length > 0) {
+    $.ajax({
+      method: "POST",
+      url: "/shifts/start_sync"
+    });
+    window.startSyncTime = moment(Date.now());
+    doPoll();
+  }
+});
+
 function doPoll() {
   $.get('/syncers', function(data) {
-    if (data.state == "complete") {
+    if ((moment(data.last_sync)) >= startSyncTime) {
       $.ajax({
-        url: "/shifts/sync_and_list",
+        url: "/shifts/list",
         type: "GET",
         success: function (html) {
           $("#shift_index").html(html);
@@ -45,11 +58,7 @@ function doPoll() {
   });
 }
 
-$(document).ready(function() {
-  if($("#shift_index").length > 0) {
-    doPoll();
-  }
-});
+
 
 $(document).ajaxComplete(function() {
   $(".volunteerinfo").hide();

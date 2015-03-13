@@ -5,6 +5,7 @@ class SyncupJob < ActiveRecord::Base
 
     ActiveRecord::Base.connection_pool.with_connection do
       Syncer.find_by(id: 1).update!(state: "syncing")
+
       volunteers = []
       shifts = []
 

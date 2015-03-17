@@ -160,6 +160,7 @@ class SyncupJob < ActiveRecord::Base
 
       # timestamp Syncer with current time
       Syncer.find_by(id: 1).update!(last_sync: DateTime.now.strftime('%Q'))
+      puts "sync complete"
     end
 
   end

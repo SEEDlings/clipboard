@@ -33,7 +33,9 @@ $(document).ready(function() {
 function doPoll() {
   $.get('/syncers', function(data) {
     console.log("startSyncTime = " + startSyncTime + " last_sync = " + data.last_sync);
-    if ((data.last_sync) >= startSyncTime) {
+    if ((data.last_sync) >= (startSyncTime - 2200)) {
+//      - 2200 to account for timestamp differences between the JS in the
+//      browser, and the timestamp coming back from Heroku/Rails
       $.ajax({
         url: "/shifts/list",
         type: "GET",

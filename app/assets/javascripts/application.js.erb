@@ -19,41 +19,60 @@
 
 $(function(){ $(document).foundation(); });
 
-
 $(document).ready(function() {
   if($("#shift_index").length > 0) {
     $.ajax({
-      url: "/shifts/sync_and_list",
-      type: "GET",
-      success: function (html) {
-        $("#shift_index").html(html);
-      },
-      error: function () {
-        $.ajax({
-          url: "/shifts/list",
-          type: "GET",
-          success: function (html) {
-            $("#shift_index").html(html);
-          }
-        });
-        alert("An error has occurred with Salesforce.");
-      }
+      method: "POST",
+      url: "/shifts/start_sync"
     });
+    window.startSyncTime = Date.now();
+    doPoll();
   }
 });
+
+function doPoll() {
+  $.get('/syncers', function(data) {
+    console.log("startSyncTime = " + startSyncTime + " last_sync = " + data.last_sync);
+    if ((data.last_sync) >= (startSyncTime - 2200)) {
+//      - 2200 to account for timestamp differences between the JS in the
+//      browser, and the timestamp coming back from Heroku/Rails
+      $.ajax({
+        url: "/shifts/list",
+        type: "GET",
+        success: function (html) {
+          $("#shift_index").html(html);
+        },
+        error: function () {
+          $.ajax({
+            url: "/shifts/list",
+            type: "GET",
+            success: function (html) {
+              $("#shift_index").html(html);
+            }
+          });
+          alert("An error has occurred with Salesforce.");
+        }
+      });
+    } else {
+      setTimeout(function(){ doPoll(); }, 500);
+    }
+  });
+}
+
+
 
 $(document).ajaxComplete(function() {
   $(".volunteerinfo").hide();
   $.each(
-    $(".volunteername"),
-    function( index, value ) {
-      $(value).click( function() {
-        $(".volunteerinfo").eq(index).toggle( "fast")
-      });
-    }
+      $(".volunteername"),
+      function( index, value ) {
+        $(value).click( function() {
+          $(".volunteerinfo").eq(index).toggle( "fast")
+        });
+      }
   );
 });
 
 $('#new_volunteer').on('valid', function(){
-    $('input[type=submit]').attr('disabled', true);
+  $('input[type=submit]').attr('disabled', true);
 });

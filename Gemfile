@@ -76,3 +76,4 @@ gem 'judge'
 gem 'jquery-ui-rails'
 gem 'pry-rails'
 gem "pry-byebug"
+gem 'sucker_punch'
